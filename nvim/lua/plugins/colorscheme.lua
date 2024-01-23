@@ -3,14 +3,6 @@
 
 
   return {
-    -- Configure LazyVim to load catppuccin
-    {
-      "LazyVim/LazyVim",
-      opts = {
-        colorscheme = "catppuccin",
-      },
-    },
-
     {
       "catppuccin/nvim",
       lazy = true,
@@ -52,5 +44,12 @@
           which_key = true,
         },
       },
-    }
+    },
+    -- Configure LazyVim to load catppuccin
+    {
+      "LazyVim/LazyVim",
+      opts = {
+        colorscheme = "catppuccin",
+      },
+    },
   }
