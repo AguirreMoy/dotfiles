@@ -1,0 +1,254 @@
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# format = '''$status$time$shlvl$directory$git_branch$git_commit$git_state$git_metrics$git_status$python$ruby$java$go$kotlin$aws$jobs$battery$sudo$shell$cmd_duration
+#$character'''
+
+format = """\
+[](bg:#030B16 fg:#7DF9AA)\
+[󰀵 ](bg:#7DF9AA fg:#090c0c)\
+[](fg:#7DF9AA bg:#1C3A5E)\
+$time\
+[](fg:#1C3A5E bg:#3B76F0)\
+$directory\
+[](fg:#3B76F0 bg:#FCF392)\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+[](fg:#FCF392 bg:#1C3A5E)\
+$python$ruby$java$go$kotlin\
+$aws$jobs$battery$sudo$shell$cmd_duration\
+[](fg:#1C3A5E)
+$status$shlvl$character\
+"""
+
+command_timeout = 1000
+
+[aws]
+symbol = "  "
+format = '[ AWS:($profile )(\($region\) )(\[$duration\] )]($style)'
+disabled = true
+style = "fg:#7DF9AA bg:#1C3A5E"
+
+[battery]
+# style = "fg:#7DF9AA bg:#1C3A5E"
+format = '[ $symbol$percentage ]($style)'
+
+[[battery.display]]
+threshold = 15
+style = 'bold red'
+
+[buf]
+symbol = " "
+
+[c]
+symbol = "🅒 "
+
+[jobs]
+format = '[$symbol$number ]($style)'
+style = "fg:#7DF9AA bg:#1C3A5E"
+
+[cmd_duration]
+show_notifications = true
+min_time = 30_000
+style = "fg:#7DF9AA bg:#1C3A5E"
+format = '[ took $duration ]($style)'
+
+[conda]
+symbol = " "
+
+[dart]
+symbol = " "
+
+[directory]
+read_only = " 󰌾"
+format = "[  $path ]($style)"
+style = "fg:#E4E4E4 bg:#3B76F0"
+
+[docker_context]
+symbol = " "
+disabled = true
+
+[elixir]
+symbol = " "
+
+[elm]
+symbol = " "
+
+[fossil_branch]
+symbol = " "
+
+[git_commit]
+style = "fg:#1C3A5E bg:#FCF392"
+
+[git_branch]
+format = '[ $symbol$branch(:$remote_branch) ]($style)'
+symbol = " "
+style = "fg:#1C3A5E bg:#FCF392"
+
+[git_status]
+conflicted='=${count}'
+ahead='⇡${count}'
+behind='⇣${count}'
+diverged='⇕⇡${ahead_count}⇣${behind_count}'
+untracked='?${count}'
+#stashed='\$${count}'
+stashed=''
+modified='!${count}'
+staged='+${count}'
+renamed='»${count}'
+deleted='✘${count}'
+format = '([\[$all_status$ahead_behind\] ]($style))'
+style = "fg:#1C3A5E bg:#FCF392"
+
+[git_metrics]
+# style = "fg:#1C3A5E bg:#FCF392"
+
+[git_state]
+style = "fg:#1C3A5E bg:#FCF392"
+
+[golang]
+symbol = " "
+format = '[ go:${version} ]($style)'
+style = "fg:#7DF9AA bg:#1C3A5E"
+
+[guix_shell]
+symbol = " "
+
+[haskell]
+symbol = " "
+
+[haxe]
+symbol = "⌘ "
+
+[hg_branch]
+symbol = " "
+
+[hostname]
+ssh_symbol = " "
+
+[java]
+symbol = " "
+format = '[ java:${version} ]($style)'
+style = "fg:#7DF9AA bg:#1C3A5E"
+
+[julia]
+symbol = " "
+
+[kotlin]
+format = '[ kotlin:${version} ]($style)'
+style = "fg:#7DF9AA bg:#1C3A5E"
+
+[lua]
+symbol = " "
+
+[memory_usage]
+symbol = "󰍛 "
+
+[meson]
+symbol = "󰔷 "
+
+[nim]
+symbol = "󰆥 "
+
+[nix_shell]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[os.symbols]
+Alpaquita = " "
+Alpine = " "
+Amazon = " "
+Android = " "
+Arch = " "
+Artix = " "
+CentOS = " "
+Debian = " "
+DragonFly = " "
+Emscripten = " "
+EndeavourOS = " "
+Fedora = " "
+FreeBSD = " "
+Garuda = "󰛓 "
+Gentoo = " "
+HardenedBSD = "󰞌 "
+Illumos = "󰈸 "
+Linux = " "
+Mabox = " "
+Macos = " "
+Manjaro = " "
+Mariner = " "
+MidnightBSD = " "
+Mint = " "
+NetBSD = " "
+NixOS = " "
+OpenBSD = "󰈺 "
+openSUSE = " "
+OracleLinux = "󰌷 "
+Pop = " "
+Raspbian = " "
+Redhat = " "
+RedHatEnterprise = " "
+Redox = "󰀘 "
+Solus = "󰠳 "
+SUSE = " "
+Ubuntu = " "
+Unknown = " "
+Windows = "󰍲 "
+
+[package]
+symbol = "󰏗 "
+disabled = true
+
+[pijul_channel]
+symbol = "🪺 "
+
+[python]
+symbol = " "
+format = '[ python:${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+style = "fg:#7DF9AA bg:#1C3A5E"
+
+[rlang]
+symbol = "󰟔 "
+
+[ruby]
+symbol = " "
+format = '[ ruby:${version} ]($style)'
+style = "fg:#7DF9AA bg:#1C3A5E"
+
+[rust]
+symbol = " "
+
+[scala]
+symbol = " "
+
+[shell]
+disabled = false
+fish_indicator = ''
+style = "fg:#7DF9AA bg:#1C3A5E"
+format = '[ $indicator ]($style)'
+
+[spack]
+symbol = "🅢 "
+
+[status]
+disabled = false
+format = '\([$symbol$common_meaning$signal_name$maybe_int$pipe_status ]($style)\)'
+pipestatus = true
+map_symbol = true
+
+[sudo]
+disabled = false
+format = '[ \[sudo\] ]($style)'
+style = "fg:#7DF9AA bg:#1C3A5E"
+
+[time]
+disabled = false
+time_format = "%R"
+style = "bg:#1d2230"
+format = '[[ 󱑍 $time ](bg:#1C3A5E fg:#8DFBD2)]($style)'
+
