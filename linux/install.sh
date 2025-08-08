@@ -37,7 +37,7 @@ install_tools() {
         if ! command -v "$tool" >/dev/null 2>&1; then
             log_info "Installing $tool..."; $PKG_MANAGER "$tool"
         else
-            log_warn "$tool is already installed. Skipping."
+            log_info "$tool is already installed. Skipping."
         fi
     done
     log_success "CLI tool installation complete."
@@ -45,3 +45,11 @@ install_tools() {
 
 # --- Main Execution ---
 install_tools
+# Check if Starship is already installed
+if ! command -v starship >/dev/null 2>&1; then
+    log_info "Installing Starship..."
+    curl -sS https://starship.rs/install.sh | sh
+    log_success "Starship installed."
+else
+    log_info "Starship is already installed. Skipping."
+fi
