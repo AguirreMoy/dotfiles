@@ -34,18 +34,18 @@ OS_NAME=$(uname -s)
 
 if [ "$OS_NAME" = "Linux" ]; then
     log_info "Detected OS: Linux. Running Linux-specific setup..."
-    VSC_CONFIG_DIR=".config/Code/User"
+    VSC_SETTINGS_FILE=".config/Code/User/settings.json"
     "$SCRIPT_DIR/linux/install.sh"
 elif [ "$OS_NAME" = "Darwin" ]; then
     log_info "Detected OS: macOS. Running macOS-specific setup..."
-    VSC_CONFIG_DIR="Library/Application Support/Code/User"
+    VSC_SETTINGS_FILE="Library/Application Support/Code/User/settings.json"
     "$SCRIPT_DIR/mac/install.sh"
 else
     log_error "Unsupported OS: $OS_NAME"
 fi
 
 # Add VS Code to the sync array now that we have the path
-DOTFILES_TO_SYNC+=("vscode:$VSC_CONFIG_DIR")
+DOTFILES_TO_SYNC+=("vscode/settings.json:$VSC_SETTINGS_FILE")
 
 # --- Symlink and Extension Management Functions ---
 create_symlink() {
