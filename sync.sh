@@ -66,6 +66,11 @@ install_vscode_extensions() {
     log_info "Installing VS Code extensions..."
     if ! command -v code >/dev/null 2>&1; then log_warn "'code' command not found. Skipping."; return; fi
     while read -r ext; do
+        #Check if exenstion already installed, if so skip
+        if code --list-extensions | grep -q "^$ext$"; then
+            log_info "  $ext is already installed. Skipping."
+            continue
+        fi
         if [ -n "$ext" ]; then log_info "  Installing $ext"; code --install-extension "$ext" || true; fi
     done < "$extension_file"
     log_success "VS Code extensions installation complete."
