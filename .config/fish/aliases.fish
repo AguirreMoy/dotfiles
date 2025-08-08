@@ -18,9 +18,9 @@ alias chmox='chmod +x'
 
 alias where=which # sometimes i forget
 
-# time to upgrade `ls`. use eza instead of dealing with coreutils, LS_COLORS blah blah
-alias ls='eza --classify=auto --color --group-directories-first --sort=extension -A'
-alias la='eza --classify=auto --color --group-directories-first --sort=extension -a -l --octal-permissions --no-permissions'
+# time to upgrade `ls`. use lsd instead of dealing with coreutils, LS_COLORS blah blah
+alias ls='lsd -F --group-directories-first --sort=extension -A'
+alias la='lsd -F --group-directories-first --sort=extension -Al'
 
 # use gdu (gdu-go) if available, as its faster on ssd
 # Ehh.. yes gdu is much faster but doesnt support ** in ignore/excludes.  use them deliberately for now
