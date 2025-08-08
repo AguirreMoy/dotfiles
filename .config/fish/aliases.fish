@@ -174,6 +174,7 @@ alias reportwatch 'watchexec "node build/build-report-components.js && node buil
 
 abbr xpraclient "xpra attach --video-scaling=off --desktop-scaling=off --dpi=96  --ssh=/usr/bin/ssh 'ssh://glurp/:110'"
 
+alias cd 'z' # zoxide is my new favorite way to navigate directories.  `z` is like `cd` but it remembers where you go and how often you go there.
 
 function delbranch
   git branch -D "$argv" && git push paul ":$argv"

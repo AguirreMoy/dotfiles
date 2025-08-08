@@ -4,7 +4,7 @@
 
 set -e
 
-TOOLS_TO_INSTALL="neovim lsd ripgrep fd bat zoxide fzf hellwal"
+TOOLS_TO_INSTALL="tldr neovim lsd ripgrep fd bat zoxide fzf hellwal"
 PKG_MANAGER="brew install"
 
 log_info() { printf "\033[0;34m[INFO]\033[0m %s\n" "$1"; }

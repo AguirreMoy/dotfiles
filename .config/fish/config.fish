@@ -32,7 +32,11 @@ ssource
 #source ~/.cache/hellwal/variablesfish.fish
 #fish ~/.cache/hellwal/terminal.sh
 
+# Starship prompt
 starship init fish | source
+
+# zoxide setup
+zoxide init fish | source
 
 # Created by `pipx` on 2025-08-08 00:59:59
 set PATH $PATH /Users/moy/Library/Python/3.13/bin
