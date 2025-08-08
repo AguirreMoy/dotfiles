@@ -1,0 +1,204 @@
+[alias]
+	c = commit -am
+	fpush = push --force
+	tpush = push  # typo: leftover t from git
+	s = status
+	ts = status # I do the `gi ts` typo all the time
+	sclone = clone --depth=1
+	amend = commit --amend --all --no-edit
+	undocommit = reset HEAD~
+	hreset = reset --hard
+	co = checkout
+	df = diff --color --color-words --abbrev
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ad) %C(bold blue)<%an>%Creset' --abbrev-commit
+	cherrypick = cherry-pick
+	cp = cherry-pick
+	# i'm a merger in dev branches, but a squasher for landing to main.
+	mergegood = merge --no-ff
+
+	# If you do `git git status`, this sorts out the duplicate
+	git = !exec git
+
+	mergeorigin = !"git merge origin/$(git mainormaster)"
+
+	# Essentially GitHub's compare view: show all 'ahead' changes (incl working tree) vs the merge-base
+	diffbranch = !"git diff  $(git diffbase)"
+	# Diff of branch that's not checked out. Doesn't include working tree (but obv doesnt need to)
+	diffbranch-that = !"git diff origin/$(git mainormaster)...\"$1\" #"
+	# Show commit log of unique commits of this branch (not on main)
+	diffcommitsfrommain = !"git log --no-merges origin/$(git mainormaster).."
+	#                                                                      ^^ also, 2 vs 3 dots: so important. https://stackoverflow.com/a/48681527
+
+	# squash unique commits from branch into one commit that keeps commit msgs.
+	squash = !"commit_body=$(git log --graph --pretty=format:'%h (%>(16)%ad %an) %s%+b' --abbrev-commit --date=human --no-color $(git diffbase)..HEAD) && author_date=$(git log -1 --pretty=%aI HEAD) && git reset --soft $(git diffbase) && GIT_AUTHOR_DATE=\"$author_date\" git commit -m \"$commit_body\""
+
+	# I prefer these from my fish abbv's, but for bash we'll keep this as a fallback.
+	db = diffbranch
+	dbt = diffbranch-that
+
+
+	# Squash a branch to one commit against a branch with many non-main commits.
+	# This can't be an alias, but here's the hack.
+	#    # be on the new feature branch, be okay with rewriting it's history.
+	#    git reset --soft (git merge-base Other_Branch_Name HEAD)
+
+
+	# Two utils:
+	#   What's the ancestor commit this branch shares with (the parent branch, or, more likely...) main?
+	#   diffbase = !"git config --get branch.$(command git symbolic-ref --short HEAD).base || git merge-base origin/$(git mainormaster) HEAD"
+	diffbase = !"git merge-base origin/$(git mainormaster) HEAD"
+	#   Is it a `main` or a `master` repo? Will default to main if neither is found.
+	mainormaster = !"(git branch --format '%(refname:short)' --sort=-committerdate --list master main; echo main) | head -n1 || echo main"
+
+	# fyi to change a git checkout from master to main.. (gh's suggested commands:)
+	#    git branch -m master main; git fetch origin; git branch -u origin/main main; git remote set-head origin -a
+
+	# commit (past) WIP changes with a message stating when they happened. (Cuz I sometimes leave changes uncommitted for a while, but want the dates for reference)
+	# todo: maybe use `git commit --date=X` to set a past date. would need to pick one, tho.
+	commitwip = !"git commit --no-verify -am \"Assorted changes. Last modified on:\n$(( git diff --name-only --cached; git ls-files --modified ) | uniq | xargs gstat -c '- %.19y %N')\""
+
+	# I'm curious about some of these git + fzf aliases...
+	#   https://github.com/mattorb/dotfiles/blob/d16776eff48d831bcfaca58f1972e6b587f5dc28/git/.gitaliases#L89
+	#   https://github.com/junegunn/fzf-git.sh
+	#   https://brettterpstra.com/2021/11/25/git-better-with-fzf-and-fish/ and https://gist.github.com/aluxian/9c6f97557b7971c32fdff2f2b1da8209
+
+[core]
+	excludesfile = ~/.gitignore
+	attributesfile = ~/.gitattributes
+	precomposeUnicode = true
+	# https://github.com/dandavison/delta
+	pager = delta
+
+[delta]
+	max-line-length = 1400
+	# max-line-distance = 0.3 # better word-diff?
+	syntax-theme = base16
+	hyperlinks = true # i filed https://github.com/dandavison/delta/issues/362 but in 2022 i can't see brokenness in the issue nor repro weirdness. but i installed latest `less` anyway
+	                  # oh i found it. it doubles up the sha and adds some `8;;` at the end.
+					  # to fix.... install latest less (`less -V` should be >= v570). shouldn't need to set DELTA_PAGER.
+	# line-numbers = true # seems nice until you want to copypaste and they're there…
+	# navigate = true # eh. not great with short diffs.
+
+	file-style = bold yellow ul
+	file-decoration-style = yellow ol ul
+	hunk-header-decoration-style = blue
+	hunk-header-line-number-style = purple bold
+
+[interactive]
+	diffFilter = delta --color-only --features=interactive
+
+[diff]
+	# Show blocks of moved text of at least 20 alphanumeric characters differently than adds/deletes
+	# https://blog.github.com/2018-04-05-git-217-released/
+	colorMoved = plain  # plain seems just _barely_ better than default.
+	# Detect copies in addition to renames
+	renames = copies
+	# A la `git submodule summary`
+	submodule = log
+	# Histogram is best. https://blog.gitbutler.com/how-git-core-devs-configure-git/
+	algorithm = histogram
+
+# special hunk parsing for .pdl. https://mirrors.edge.kernel.org/pub/software/scm/git/docs/gitattributes.html#_defining_a_custom_hunk_header
+[diff "pdl"]
+	xfuncname = "^((experimental )*domain.*)"
+	xfuncname = "^  type.*"
+
+# so much color
+[color]
+	ui = auto
+[color "diff"]  # i still love these choices in 2022.
+	meta = yellow bold
+	commit = green bold
+	frag = magenta bold
+	old = red bold
+	new = green bold
+	whitespace = red reverse
+
+	newMoved = cyan dim
+	oldMoved = blue dim
+	newMovedAlternative = cyan italic
+	oldMovedAlternative = blue italic
+[color "branch"]
+	current = yellow reverse
+	local = yellow
+	remote = green
+[color "status"]
+	added = yellow
+	changed = green
+	untracked = cyan
+
+[color "diff-highlight"]  # mostly dead. only needed when using diff-so-fancy
+	oldNormal = red bold
+	oldHighlight = "red bold 52"
+	newNormal = "green bold"
+	newHighlight = "green bold 22"
+
+[log]
+	# https://github.com/git/git/commit/acdd37769de8b0fe37a74bfc0475b63bdc55e9dc
+	date = human
+
+# git mergetool
+[merge]
+	tool = opendiff
+	renameLimit = 0
+	# This 3-item conflict style is MUCH better.
+	conflictstyle = zdiff3
+
+
+[url "git@github.com:"]
+	insteadOf = https://github.com/
+
+[url "git://gist.github.com/"]
+	insteadOf = "gist:"
+
+# correct typos. also lol 'deciseconds': https://blog.gitbutler.com/why-is-git-autocorrect-too-fast-for-formula-one-drivers/
+[help]
+	autocorrect = "immediate"
+
+# push easily. http://stackoverflow.com/a/23918418/89484
+[push]
+	default = simple
+	followTags = true
+	autoSetupRemote = true
+[pull]
+	ff = only
+	default = current
+[checkout]
+	defaultRemote = origin
+
+# use separate file for username / github token / etc
+[include]
+	path = ~/.gitconfig.local
+
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	required = true
+	process = git-lfs filter-process
+
+[fetch]
+	# prune stuff locally if it was deleted from the remote
+	prune = true
+	# all = true
+
+[stash]
+	showPatch = true
+
+# faster git server communication.
+# like a LOT faster. https://opensource.googleblog.com/2018/05/introducing-git-protocol-version-2.html
+[protocol]
+	version = 2
+
+
+[advice]
+	detachedHead = false
+
+[commit]
+	# include whole diff in message composition screen
+	verbose = true
+
+
+[rerere]
+	# remember conflict resolutions
+	enabled = true
+	autoupdate = true
