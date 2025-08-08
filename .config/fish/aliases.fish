@@ -19,8 +19,8 @@ alias chmox='chmod +x'
 alias where=which # sometimes i forget
 
 # time to upgrade `ls`. use lsd instead of dealing with coreutils, LS_COLORS blah blah
-alias ls='lsd -F --group-directories-first --sort=extension -A'
-alias la='lsd -F --group-directories-first --sort=extension -Al'
+alias ls='lsd -F --group-directories-first -A'
+alias la='lsd -F --group-directories-first -Al'
 
 # use gdu (gdu-go) if available, as its faster on ssd
 # Ehh.. yes gdu is much faster but doesnt support ** in ignore/excludes.  use them deliberately for now
@@ -173,8 +173,6 @@ alias reportunit 'yarn jest (find report -iname "*-test.js" | grep -v axe)'
 alias reportwatch 'watchexec "node build/build-report-components.js && node build/build-report.js --psi && node build/build-sample-reports.js && echo \$(date) && yarn eslint --fix report/renderer/components.js" && bash core/scripts/copy-util-commonjs.sh'
 
 abbr xpraclient "xpra attach --video-scaling=off --desktop-scaling=off --dpi=96  --ssh=/usr/bin/ssh 'ssh://glurp/:110'"
-
-alias cd 'z' # zoxide is my new favorite way to navigate directories.  `z` is like `cd` but it remembers where you go and how often you go there.
 
 function delbranch
   git branch -D "$argv" && git push paul ":$argv"

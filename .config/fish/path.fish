@@ -1,7 +1,7 @@
 
 
 # Read from ~/.paths  and populate PATH based on that. reversed to ensure priority goes to top of file.
-for line in (tac ~/.paths  | sed 's|#.*||' | sed 's/^[ \t]*//;s/[ \t]*$//' | string split -n "\n")
+for line in (cat ~/.paths  | sed 's|#.*||' | sed 's/^[ \t]*//;s/[ \t]*$//' | string split -n "\n")
   # skip comments
   if test (string sub --length 1 "$line") = "#"
       continue  

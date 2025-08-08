@@ -68,6 +68,9 @@
 	precomposeUnicode = true
 	# https://github.com/dandavison/delta
 	pager = delta
+	autocrlf = false
+	eol = lf
+	safecrlf = warn
 
 [delta]
 	max-line-length = 1400
