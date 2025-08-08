@@ -4,6 +4,7 @@ catppuccin.catppuccin-vsc-icons
 charliermarsh.ruff
 docker.docker
 dracula-theme.theme-dracula
+esbenp.prettier-vscode
 github.copilot
 github.copilot-chat
 mechatroner.rainbow-csv
