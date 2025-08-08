@@ -1,0 +1,18 @@
+# This is intended as GLOBAL ~/.gitignore, not just this dotfiles repo. (But.. it's both.)
+
+# git credential file
+.gitconfig.local
+
+# Nice and clean by default, but this does create a problem if I don't add into new repos gitignore and other folks dont have the same default.  problems when other folks don't have the same in their global gitignore.  
+node_modules
+
+# why u be like that
+.DS_Store
+
+
+.aider.chat.history.md
+.aider.input.history
+.aider.tags.cache.v4
+
+.gemini
+.roo
