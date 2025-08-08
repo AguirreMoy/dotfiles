@@ -152,11 +152,11 @@
 	conflictstyle = zdiff3
 
 
-[url "git@github.com:"]
-	insteadOf = https://github.com/
+# [url "git@github.com:"]
+# 	insteadOf = https://github.com/
 
-[url "git://gist.github.com/"]
-	insteadOf = "gist:"
+# [url "git://gist.github.com/"]
+# 	insteadOf = "gist:"
 
 # correct typos. also lol 'deciseconds': https://blog.gitbutler.com/why-is-git-autocorrect-too-fast-for-formula-one-drivers/
 [help]
