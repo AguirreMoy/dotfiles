@@ -12,8 +12,10 @@ DOTFILES_TO_SYNC=(
     ".config/fish:.config/fish"
     ".config/starship.toml:.config/starship.toml"
     ".config/kitty:.config/kitty"
+    ".config/hellwal:.config/hellwal"
     ".cache/hellwal:.cache/hellwal"
-    "gitconfig:.gitconfig"
+    ".gitconfig:.gitconfig"
+    ".paths:.paths"
 )
 
 # --- Script Logic ---

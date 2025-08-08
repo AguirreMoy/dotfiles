@@ -9,7 +9,7 @@ end
 # TODO: path and aliases are kinda slow to source. optimize later. 
 function ssource --description "source most of my dotfiles, useful if making changes and iterating"
 
-#    source ~/.config/fish/path.fish
+    source ~/.config/fish/path.fish
     source ~/.config/fish/aliases.fish
     source ~/.config/fish/functions.fish
 #    source ~/.config/fish/chromium.fish
@@ -36,7 +36,7 @@ ssource
 starship init fish | source
 
 # zoxide setup
-zoxide init fish | source
+zoxide init --cmd cd fish | source
 
 # Created by `pipx` on 2025-08-08 00:59:59
 set PATH $PATH /Users/moy/Library/Python/3.13/bin
