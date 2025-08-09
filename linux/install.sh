@@ -4,7 +4,7 @@
 
 set -e
 
-TOOLS_TO_INSTALL="tldr neovim lsd ripgrep fd-find bat zoxide fzf hellwal"
+TOOLS_TO_INSTALL="tldr neovim lsd ripgrep fd-find bat zoxide fzf"
 PKG_MANAGER="sudo apt-get install -y"
 
 log_info() { printf "\033[0;34m[INFO]\033[0m %s\n" "$1"; }
@@ -53,3 +53,24 @@ if ! command -v starship >/dev/null 2>&1; then
 else
     log_info "Starship is already installed. Skipping."
 fi
+
+# Manually build and install hellwal.
+log_info "Building and installing hellwal..."
+if ! command -v git >/dev/null 2>&1 || ! command -v make >/dev/null 2>&1; then
+    log_info "Installing git and make for hellwal build..."
+    sudo apt-get install -y git make
+fi
+
+if [ -d "hellwal" ]; then
+    log_warn "hellwal directory already exists. Skipping git clone."
+else
+    git clone https://github.com/danihek/hellwal
+fi
+
+cd hellwal && make
+log_success "hellwal built and installed."
+
+# Remove hellwal artifacts after installation
+log_info "Removing hellwal build artifacts..."
+cd ..
+rm -rf hellwal
