@@ -1,257 +1,149 @@
-# Get editor completions based on the config schema
-"$schema" = 'https://starship.rs/config-schema.json'
-format = """$status$time$shlvl$directory$git_branch$git_commit$git_state$git_metrics$git_status$python$ruby$java$go$kotlin$aws$jobs$battery$sudo$shell$cmd_duration\
-$character"""
+format = """
+[](1)\
+$os\
+$username\
+[](bg:2 fg:prev_bg)\
+$directory\
+[](fg:prev_bg bg:3)\
+$git_branch\
+$git_status\
+[](fg:prev_bg bg:4)\
+$c\
+$elixir\
+$elm\
+$golang\
+$gradle\
+$haskell\
+$java\
+$julia\
+$nodejs\
+$nim\
+$rust\
+$scala\
+[](fg:prev_bg bg:5)\
+$docker_context\
+[](fg:prev_bg bg:6)\
+$time\
+[ ](fg:prev_bg)\
+"""
 
-# format = """\
-# [](bg:#030B16 fg:#7DF9AA)\
-# [󰀵 ](bg:#7DF9AA fg:#090c0c)\
-# [](fg:#7DF9AA bg:#1C3A5E)\
-# $time\
-# [](fg:#1C3A5E bg:#3B76F0)\
-# $directory\
-# [](fg:#3B76F0 bg:#FCF392)\
-# $git_branch\
-# $git_commit\
-# $git_state\
-# $git_metrics\
-# $git_status\
-# [](fg:#FCF392 bg:#1C3A5E)\
-# $python$ruby$java$go$kotlin\
-# $aws$jobs$battery$sudo$shell$cmd_duration\
-# [](fg:#1C3A5E)
-# $status$shlvl$character\
-#"""
+# Disable the blank line at the start of the prompt
+# add_newline = false
 
-command_timeout = 1000
+# You can also replace your username with a neat symbol like   or disable this
+# and use the os module below
+[username]
+show_always = true
+style_user = "bg:prev_fg"
+style_root = "bg:prev_fg bold"
+format = '[$user]($style)'
+disabled = false
 
-[aws]
-symbol = "  "
-format = '[ AWS:($profile )(\($region\) )(\[$duration\] )]($style)'
-disabled = true
-style = "fg:#7DF9AA bg:#1C3A5E"
-
-[battery]
-# style = "fg:#7DF9AA bg:#1C3A5E"
-format = '[ $symbol$percentage ]($style)'
-
-[[battery.display]]
-threshold = 15
-style = 'bold red'
-
-[buf]
-symbol = " "
-
-[c]
-symbol = "🅒 "
-
-[character]
-#success_symbol = '[➜](bold green) '
-error_symbol = '[✗](bold red) '
-
-[jobs]
-format = '[$symbol$number ]($style)'
-style = "fg:#7DF9AA bg:#1C3A5E"
-
-[cmd_duration]
-show_notifications = true
-min_time = 30_000
-style = "fg:#7DF9AA bg:#1C3A5E"
-format = '[ took $duration ]($style)'
-
-[conda]
-symbol = " "
-
-[dart]
-symbol = " "
+# An alternative to the username module which displays a symbol that
+# represents the current operating system
+[os]
+style = "bg:prev_fg"
+disabled = true # Disabled by default
 
 [directory]
-read_only = " 󰌾"
-format = "[  $path ]($style)"
-# style = "fg:#E4E4E4 bg:#3B76F0"
+style = "bg:prev_bg"
+format = "[ $path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+# Here is how you can shorten some long paths by text replacement
+# similar to mapped_locations in Oh My Posh:
+[directory.substitutions]
+"Documents" = "󰈙 "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+# Keep in mind that the order matters. For example:
+# "Important Documents" = " 󰈙 "
+# will not be replaced, because "Documents" was already substituted before.
+# So either put "Important Documents" before "Documents" or use the substituted version:
+# "Important 󰈙 " = " 󰈙 "
+
+[c]
+symbol = " "
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
+
+[cpp]
+symbol = " "
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
 
 [docker_context]
 symbol = " "
-disabled = true
+style = "bg:prev_bg"
+format = '[ $symbol $context ]($style)'
 
 [elixir]
 symbol = " "
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
 
 [elm]
 symbol = " "
-
-[fossil_branch]
-symbol = " "
-
-[git_commit]
-style = "fg:#1C3A5E bg:#FCF392"
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
-format = '[ $symbol$branch(:$remote_branch) ]($style)'
-symbol = " "
-#style = "fg:#1C3A5E bg:#FCF392"
+symbol = ""
+style = "bg:prev_bg"
+format = '[ $symbol $branch ]($style)'
 
 [git_status]
-conflicted='=${count}'
-ahead='⇡${count}'
-behind='⇣${count}'
-diverged='⇕⇡${ahead_count}⇣${behind_count}'
-untracked='?${count}'
-#stashed='\$${count}'
-stashed=''
-modified='!${count}'
-staged='+${count}'
-renamed='»${count}'
-deleted='✘${count}'
-format = '([\[$all_status$ahead_behind\] ]($style))'
-#style = "fg:#1C3A5E bg:#FCF392"
-
-[git_metrics]
-## style = "fg:#1C3A5E bg:#FCF392"
-
-[git_state]
-#style = "fg:#1C3A5E bg:#FCF392"
+style = "bg:prev_bg"
+format = '[$all_status$ahead_behind ]($style)'
 
 [golang]
 symbol = " "
-format = '[ go:${version} ]($style)'
-#style = "fg:#7DF9AA bg:#1C3A5E"
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
 
-[guix_shell]
-symbol = " "
+[gradle]
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
 
 [haskell]
 symbol = " "
-
-[haxe]
-symbol = "⌘ "
-
-[hg_branch]
-symbol = " "
-
-[hostname]
-ssh_symbol = " "
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
 
 [java]
 symbol = " "
-format = '[ java:${version} ]($style)'
-#style = "fg:#7DF9AA bg:#1C3A5E"
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
 
 [julia]
 symbol = " "
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
 
-[kotlin]
-format = '[ kotlin:${version} ]($style)'
-#style = "fg:#7DF9AA bg:#1C3A5E"
-
-[lua]
-symbol = " "
-
-[memory_usage]
-symbol = "󰍛 "
-
-[meson]
-symbol = "󰔷 "
+[nodejs]
+symbol = ""
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
 
 [nim]
 symbol = "󰆥 "
-
-[nix_shell]
-symbol = " "
-
-[nodejs]
-symbol = " "
-
-[os.symbols]
-Alpaquita = " "
-Alpine = " "
-Amazon = " "
-Android = " "
-Arch = " "
-Artix = " "
-CentOS = " "
-Debian = " "
-DragonFly = " "
-Emscripten = " "
-EndeavourOS = " "
-Fedora = " "
-FreeBSD = " "
-Garuda = "󰛓 "
-Gentoo = " "
-HardenedBSD = "󰞌 "
-Illumos = "󰈸 "
-Linux = " "
-Mabox = " "
-Macos = " "
-Manjaro = " "
-Mariner = " "
-MidnightBSD = " "
-Mint = " "
-NetBSD = " "
-NixOS = " "
-OpenBSD = "󰈺 "
-openSUSE = " "
-OracleLinux = "󰌷 "
-Pop = " "
-Raspbian = " "
-Redhat = " "
-RedHatEnterprise = " "
-Redox = "󰀘 "
-Solus = "󰠳 "
-SUSE = " "
-Ubuntu = " "
-Unknown = " "
-Windows = "󰍲 "
-
-[package]
-symbol = "󰏗 "
-disabled = true
-
-[pijul_channel]
-symbol = "🪺 "
-
-[python]
-symbol = " "
-format = '[ python:${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
-#style = "fg:#7DF9AA bg:#1C3A5E"
-
-[rlang]
-symbol = "󰟔 "
-
-[ruby]
-symbol = " "
-format = '[ ruby:${version} ]($style)'
-#style = "fg:#7DF9AA bg:#1C3A5E"
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
 
 [rust]
-symbol = " "
+symbol = ""
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
 
 [scala]
 symbol = " "
-
-[shell]
-disabled = true
-fish_indicator = ''
-#style = "fg:#7DF9AA bg:#1C3A5E"
-format = '[ $indicator ]($style)'
-
-[spack]
-symbol = "🅢 "
-
-[status]
-disabled = false
-format = '\([$symbol$common_meaning$signal_name$maybe_int$pipe_status ]($style)\)'
-pipestatus = true
-map_symbol = true
-
-[sudo]
-disabled = false
-format = '[ \[sudo\] ]($style)'
-#style = "fg:#7DF9AA bg:#1C3A5E"
+style = "bg:prev_bg"
+format = '[ $symbol ($version) ]($style)'
 
 [time]
-disabled = true
-time_format = "%R"
-#style = "bg:#1d2230"
-format = '[[ 󱑍 $time ](bg:#1C3A5E fg:#8DFBD2)]($style)'
-
+disabled = false
+time_format = "%R" # Hour:Minute Format
+style = "bg:prev_bg"
+format = '[ ♥ $time ]($style)'

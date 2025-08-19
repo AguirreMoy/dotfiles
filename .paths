@@ -3,3 +3,5 @@
 /bin/
 ~/.local/bin/
 ~/.dotnet/tools/
+~/.aspire/bin/
+~/.dotnet/
