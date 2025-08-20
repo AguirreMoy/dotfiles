@@ -9,6 +9,7 @@ $git_branch\
 $git_status\
 [](fg:prev_bg bg:4)\
 $c\
+$dotnet\
 $elixir\
 $elm\
 $golang\
@@ -25,6 +26,7 @@ $docker_context\
 [](fg:prev_bg bg:6)\
 $time\
 [ ](fg:prev_bg)\
+$line_break$character
 """
 
 # Disable the blank line at the start of the prompt
@@ -37,7 +39,17 @@ show_always = true
 style_user = "bg:prev_fg"
 style_root = "bg:prev_fg bold"
 format = '[$user]($style)'
+aliases = { "moises" = "", "root" = "󰞄" }
 disabled = false
+
+[character]
+disabled = false
+success_symbol = '[](bold fg:color_green)'
+error_symbol = '[](bold fg:color_red)'
+vimcmd_symbol = '[](bold fg:color_green)'
+vimcmd_replace_one_symbol = '[](bold fg:color_purple)'
+vimcmd_replace_symbol = '[](bold fg:color_purple)'
+vimcmd_visual_symbol = '[](bold fg:color_yellow)'
 
 # An alternative to the username module which displays a symbol that
 # represents the current operating system
@@ -48,7 +60,7 @@ disabled = true # Disabled by default
 [directory]
 style = "bg:prev_bg"
 format = "[ $path ]($style)"
-truncation_length = 3
+truncation_length = 2
 truncation_symbol = "…/"
 
 # Here is how you can shorten some long paths by text replacement
@@ -68,6 +80,13 @@ truncation_symbol = "…/"
 symbol = " "
 style = "bg:prev_bg"
 format = '[ $symbol ($version) ]($style)'
+
+[dotnet]
+symbol = '.NET'
+style = "bg:prev_bg"
+version_format = "${major}.${minor}"
+format = '[ $symbol ($version) ]($style)'
+heuristic = true
 
 [cpp]
 symbol = " "
@@ -90,6 +109,7 @@ style = "bg:prev_bg"
 format = '[ $symbol ($version) ]($style)'
 
 [git_branch]
+truncation_symbol = "…"
 symbol = ""
 style = "bg:prev_bg"
 format = '[ $symbol $branch ]($style)'
@@ -146,4 +166,4 @@ format = '[ $symbol ($version) ]($style)'
 disabled = false
 time_format = "%R" # Hour:Minute Format
 style = "bg:prev_bg"
-format = '[ ♥ $time ]($style)'
+format = '[ $time ]($style)'
