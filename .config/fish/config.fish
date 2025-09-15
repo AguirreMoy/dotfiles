@@ -45,5 +45,17 @@ zoxide init --cmd cd fish | source
 # atuin setup
 atuin init fish | source
 
+# OS-specific settings
+set -l USER (whoami)
+switch (uname)
+    case Darwin
+        # do things for macOS
+        set SSH_AUTH_SOCK "/Users/$USER/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
+    case Linux
+        # do things for Linux
+    case '*'
+        # do things for other OSs
+end
+
 # Created by `pipx` on 2025-08-08 00:59:59
 set PATH $PATH /Users/moy/Library/Python/3.13/bin
