@@ -1,5 +1,6 @@
 /opt/homebrew/bin/
 /usr/bin/
+/usr/local/bin/
 /bin/
 ~/.local/bin/
 ~/.dotnet/tools/
