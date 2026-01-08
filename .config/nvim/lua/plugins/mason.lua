@@ -1,6 +1,6 @@
 return{  -- add any tools you want to have installed below
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = function(_, opts)
       table.insert(opts.ensure_installed, "black")
       table.insert(opts.ensure_installed, "isort")
