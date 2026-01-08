@@ -1,0 +1,6 @@
+# Environment variables
+# Format: KEY=VALUE
+# Example:
+EDITOR=nvim
+# COMMENTS_ENABLED=true
+DOTNET_ROOT=$HOME/.dotnet

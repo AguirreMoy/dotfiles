@@ -16,6 +16,7 @@ DOTFILES_TO_SYNC=(
     ".cache/hellwal:.cache/hellwal"
     ".gitconfig:.gitconfig"
     ".paths:.paths"
+    ".envs:.envs"
 )
 
 # --- Script Logic ---

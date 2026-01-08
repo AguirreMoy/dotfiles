@@ -11,6 +11,7 @@ end
 function ssource --description "source most of my dotfiles, useful if making changes and iterating"
 
     source ~/.config/fish/path.fish
+    source ~/.config/fish/env.fish
     source ~/.config/fish/aliases.fish
     source ~/.config/fish/functions.fish
 #    source ~/.config/fish/chromium.fish
