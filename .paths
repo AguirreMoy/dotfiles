@@ -1,10 +1,10 @@
-/opt/homebrew/bin/
-/usr/bin/
-/usr/local/bin/
-/bin/
+# Paths go in reversed priority order, bottom has highest priority
 ~/.local/bin/
 ~/.dotnet/tools/
 ~/.aspire/bin/
 ~/.dotnet/
 ~/.atuin/bin 
-
+/usr/local/bin/
+/usr/bin/
+/bin/
+/opt/homebrew/bin/

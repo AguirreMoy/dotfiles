@@ -1,4 +1,4 @@
 return {
     -- disable trouble
-    { "hrsh7th/nvim-cmp", enabled = true },
+    { "hrsh7th/nvim-cmp", enabled = false },
   }
