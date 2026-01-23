@@ -90,5 +90,31 @@ if [ -d "$HOME_DIR/$VSC_CONFIG_DIR" ]; then
     install_vscode_extensions "$SCRIPT_DIR/vscode/extensions.txt"
 fi
 
+# --- Awesome Copilot Sync ---
+log_info "Synchronizing Awesome Copilot..."
+AWESOME_COPILOT_DIR="$SCRIPT_DIR/awesome-copilot"
+COPILOT_CONFIG_DIR="$HOME_DIR/.copilot"
+
+if [ ! -d "$AWESOME_COPILOT_DIR" ]; then
+    log_info "Cloning Awesome Copilot repository..."
+    git clone https://github.com/github/awesome-copilot.git "$AWESOME_COPILOT_DIR"
+else
+    log_info "Updating Awesome Copilot repository..."
+    git -C "$AWESOME_COPILOT_DIR" pull
+fi
+
+mkdir -p "$COPILOT_CONFIG_DIR"
+
+# Copy directories, overwriting existing files
+for dir in agents instructions prompts skills collections; do
+    if [ -d "$AWESOME_COPILOT_DIR/$dir" ]; then
+        log_info "  Syncing $dir..."
+        mkdir -p "$COPILOT_CONFIG_DIR/$dir"
+        # Copy contents, overwriting existing files but preserving custom ones
+        cp -R "$AWESOME_COPILOT_DIR/$dir/"* "$COPILOT_CONFIG_DIR/$dir/" 2>/dev/null || true
+    fi
+done
+log_success "Awesome Copilot synchronization complete."
+
 log_success "Dotfile synchronization complete."
 log_warn "Please remember to manually install your paid fonts from your private repository."

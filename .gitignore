@@ -19,3 +19,4 @@ node_modules
 
 #ignore cache files
 .cache
+awesome-copilot
