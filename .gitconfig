@@ -1,6 +1,6 @@
-# use separate file for username / github token / etc
+# Environment Specific Config (Managed by sync.sh via MY_ENV)
 [include]
-	path = ~/.gitconfig.local
+    path = ~/.gitconfig.environment
 
 [alias]
 	c = commit -am

@@ -30,6 +30,54 @@ log_success() { printf "\033[0;32m[SUCCESS]\033[0m %s\n" "$1"; }
 log_warn() { printf "\033[0;33m[WARNING]\033[0m %s\n" "$1"; }
 log_error() { printf "\033[0;31m[ERROR]\033[0m %s\n" "$1" >&2; exit 1; }
 
+# --- Environment Check & Gitconfig Setup ---
+if [ -z "$MY_ENV" ]; then
+    log_warn "MY_ENV not set. Please choose your environment:"
+    printf "1) Personal\n2) Work\n"
+    printf "Selection: "
+    read -r choice
+    case "$choice" in
+        1) MY_ENV="personal" ;;
+        2) MY_ENV="work" ;;
+        *) log_error "Invalid selection. Please run the script again and select 1 or 2." ;;
+    esac
+    log_success "MY_ENV set to '$MY_ENV' for this session."
+    log_info "Note: To make this permanent, export MY_ENV in your shell's config file."
+fi
+
+log_info "Environment detected: $MY_ENV"
+ENVIRONMENT_CONFIG="$HOME/.gitconfig.environment"
+ENVIRONMENT_ENVS="$HOME/.envs.environment"
+ENVIRONMENT_PATHS="$HOME/.paths.environment"
+
+# Remove existing symlink or file
+rm -f "$ENVIRONMENT_CONFIG"
+rm -f "$ENVIRONMENT_ENVS"
+rm -f "$ENVIRONMENT_PATHS"
+
+case "$MY_ENV" in
+    personal)
+        ln -s "$SCRIPT_DIR/.gitconfig.personal" "$ENVIRONMENT_CONFIG"
+        ln -s "$SCRIPT_DIR/.envs.personal" "$ENVIRONMENT_ENVS"
+        ln -s "$SCRIPT_DIR/.paths.personal" "$ENVIRONMENT_PATHS"
+        log_success "Linked .gitconfig.environment -> .gitconfig.personal"
+        log_success "Linked .envs.environment -> .envs.personal"
+        log_success "Linked .paths.environment -> .paths.personal"
+        ;;
+    work)
+        ln -s "$SCRIPT_DIR/.gitconfig.work" "$ENVIRONMENT_CONFIG"
+        ln -s "$SCRIPT_DIR/.envs.work" "$ENVIRONMENT_ENVS"
+        ln -s "$SCRIPT_DIR/.paths.work" "$ENVIRONMENT_PATHS"
+        log_success "Linked .gitconfig.environment -> .gitconfig.work"
+        log_success "Linked .envs.environment -> .envs.work"
+        log_success "Linked .paths.environment -> .paths.work"
+        ;;
+    *)
+        log_error "Invalid MY_ENV value: $MY_ENV. Must be 'personal' or 'work'."
+        ;;
+esac
+
+
 # --- OS Detection and Sub-script Call ---
 OS_NAME=$(uname -s)
 

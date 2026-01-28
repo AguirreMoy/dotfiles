@@ -1,4 +1,24 @@
 if status is-interactive
+    if not set -q MY_ENV
+        while true
+            echo "MY_ENV not set. Please choose your environment:"
+            echo "1) Personal"
+            echo "2) Work"
+            read -P "Selection: " choice
+            switch $choice
+                case 1
+                    set -Ux MY_ENV personal
+                    break
+                case 2
+                    set -Ux MY_ENV work
+                    break
+                case '*'
+                    echo "Invalid selection. Please try again."
+            end
+        end
+        echo "MY_ENV set to '$MY_ENV'."
+    end
+
     # Commands to run in interactive sessions can go here
     atuin init fish | source
 end
@@ -51,7 +71,11 @@ set -l USER (whoami)
 switch (uname)
     case Darwin
         # do things for macOS
-        set SSH_AUTH_SOCK "/Users/$USER/Library/Containers/com.bitwarden.desktop/Data/.bitwarden-ssh-agent.sock"
+        # Start the agent in the background if it's not already running
+        if not test -S $SSH_AUTH_SOCK
+            # We use & to background it
+            pass-cli ssh-agent start > /dev/null 2>&1 &
+        end
     case Linux
         # do things for Linux
     case '*'

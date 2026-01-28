@@ -1,0 +1,3 @@
+# Personal Environment Variables
+# Proton Pass SSH Agent
+SSH_AUTH_SOCK=$HOME/.ssh/proton-pass-agent.sock
