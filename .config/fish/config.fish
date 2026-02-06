@@ -34,17 +34,19 @@ function ssource --description "source most of my dotfiles, useful if making cha
     source ~/.config/fish/env.fish
     source ~/.config/fish/aliases.fish
     source ~/.config/fish/functions.fish
-#    source ~/.config/fish/chromium.fish
+    #    source ~/.config/fish/chromium.fish
 
     # pull in all shared `export …` aka `set -gx …`
-#    source ~/.exports
+    #    source ~/.exports
 
-    if test -e "$HOME/code/dotfiles/private/extras.fish";
+    if test -e "$HOME/code/dotfiles/private/extras.fish"
+
         source $HOME/code/dotfiles/private/extras.fish
     end
 
     # for things not checked into git
-    if test -e "$HOME/.extra.fish";
+    if test -e "$HOME/.extra.fish"
+
         source ~/.extra.fish
     end
 end
@@ -72,9 +74,13 @@ switch (uname)
     case Darwin
         # do things for macOS
         # Start the agent in the background if it's not already running
-        if not test -S $SSH_AUTH_SOCK
-            # We use & to background it
-            pass-cli ssh-agent start > /dev/null 2>&1 &
+        # Check if the socket is actually responding
+        if not ssh-add -l >/dev/null 2>&1
+            # If we are here, the socket is either missing OR stale (Connection refused)
+            # We remove the stale file just in case pass-cli doesn't handle it well
+            rm -f $SSH_AUTH_SOCK
+            # Start it up
+            pass-cli ssh-agent start >/dev/null 2>&1 &
         end
     case Linux
         # do things for Linux
