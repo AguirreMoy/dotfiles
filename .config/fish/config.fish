@@ -74,15 +74,8 @@ switch (uname)
     case Darwin
         # do things for macOS
         if test "$MY_ENV" = personal
-            # Start the agent in the background if it's not already running
-            # Check if the socket is actually responding
-            if not ssh-add -l >/dev/null 2>&1
-                # If we are here, the socket is either missing OR stale (Connection refused)
-                # We remove the stale file just in case pass-cli doesn't handle it well
-                rm -f $SSH_AUTH_SOCK
-                # Start it up
-                pass-cli ssh-agent start >/dev/null 2>&1 &
-            end
+            # Load keys from macOS Keychain
+            ssh-add --apple-load-keychain >/dev/null 2>&1
         end
     case Linux
         # do things for Linux
