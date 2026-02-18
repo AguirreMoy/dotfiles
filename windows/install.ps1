@@ -77,3 +77,30 @@ foreach ($tool in $tools) {
     winget install --id $tool --silent
 }
 Log-Success "Cross-platform tools installation complete."
+
+function Install-VictorMonoNerdFont {
+    Log-Info "Installing VictorMono Nerd Font..."
+    $url = "https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/VictorMono.zip"
+    $tempDir = Join-Path $env:TEMP "VictorMonoNerdFont"
+    if (Test-Path $tempDir) { Remove-Item $tempDir -Recurse -Force }
+    New-Item -ItemType Directory -Path $tempDir | Out-Null
+    $zipFile = Join-Path $tempDir "VictorMono.zip"
+    Invoke-WebRequest -Uri $url -OutFile $zipFile
+    Expand-Archive -Path $zipFile -DestinationPath $tempDir
+    
+    $fontFiles = Get-ChildItem -Path $tempDir -Filter "*.ttf"
+    # This installs for the current user
+    $fontsFolder = (New-Object -ComObject Shell.Application).Namespace(0x14)
+    foreach ($file in $fontFiles) {
+        if (-not (Test-Path "C:\Windows\Fonts\$($file.Name)")) {
+            Log-Info "  Installing $($file.Name)"
+            $fontsFolder.CopyHere($file.FullName)
+        } else {
+            Log-Info "  $($file.Name) already installed. Skipping."
+        }
+    }
+    Remove-Item $tempDir -Recurse -Force
+    Log-Success "VictorMono Nerd Font installed."
+}
+
+Install-VictorMonoNerdFont

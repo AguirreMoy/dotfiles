@@ -4,7 +4,7 @@
 
 set -e
 
-TOOLS_TO_INSTALL="tldr neovim lsd ripgrep fd-find bat zoxide fzf"
+TOOLS_TO_INSTALL="tldr neovim lsd ripgrep fd-find bat zoxide fzf curl unzip"
 PKG_MANAGER="sudo apt-get install -y"
 
 log_info() { printf "\033[0;34m[INFO]\033[0m %s\n" "$1"; }
@@ -74,3 +74,18 @@ log_success "hellwal built and installed."
 log_info "Removing hellwal build artifacts..."
 cd ..
 rm -rf hellwal
+
+install_victormono_nerd_font() {
+    log_info "Installing VictorMono Nerd Font..."
+    FONT_DIR="$HOME/.local/share/fonts"
+    mkdir -p "$FONT_DIR"
+    TEMP_DIR=$(mktemp -d)
+    curl -L -o "$TEMP_DIR/VictorMono.zip" https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/VictorMono.zip
+    unzip "$TEMP_DIR/VictorMono.zip" -d "$TEMP_DIR"
+    mv "$TEMP_DIR"/*.ttf "$FONT_DIR/"
+    rm -rf "$TEMP_DIR"
+    fc-cache -fv
+    log_success "VictorMono Nerd Font installed."
+}
+
+install_victormono_nerd_font

@@ -4,7 +4,7 @@
 
 set -e
 
-TOOLS_TO_INSTALL="tldr neovim lsd ripgrep fd bat zoxide fzf hellwal"
+TOOLS_TO_INSTALL="tldr neovim lsd ripgrep fd bat zoxide fzf hellwal curl unzip"
 PKG_MANAGER="brew install"
 
 log_info() { printf "\033[0;34m[INFO]\033[0m %s\n" "$1"; }
@@ -44,4 +44,17 @@ if ! command -v starship >/dev/null 2>&1; then
 else
     log_info "Starship is already installed. Skipping."
 fi
+
+install_victormono_nerd_font() {
+    log_info "Installing VictorMono Nerd Font..."
+    FONT_DIR="$HOME/Library/Fonts"
+    TEMP_DIR=$(mktemp -d)
+    curl -L -o "$TEMP_DIR/VictorMono.zip" https://github.com/ryanoasis/nerd-fonts/releases/download/v3.4.0/VictorMono.zip
+    unzip "$TEMP_DIR/VictorMono.zip" -d "$TEMP_DIR"
+    mv "$TEMP_DIR"/*.ttf "$FONT_DIR/"
+    rm -rf "$TEMP_DIR"
+    log_success "VictorMono Nerd Font installed."
+}
+
+install_victormono_nerd_font
 
