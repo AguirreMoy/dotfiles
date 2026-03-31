@@ -20,6 +20,9 @@ if [ -z "$shell_path" ]; then
     shell_path=${SHELL:-/bin/sh}
 fi
 
+unset DOTFILES_ZSHRC_LOADED
+unset DOTFILES_GREETING_SHOWN
+
 case "$selected_shell" in
     fish|zsh|bash)
         exec "$shell_path" -i -l

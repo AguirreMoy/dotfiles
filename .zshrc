@@ -1,7 +1,7 @@
 # shellcheck shell=zsh
 
 [[ -n ${DOTFILES_ZSHRC_LOADED:-} ]] && return
-export DOTFILES_ZSHRC_LOADED=1
+DOTFILES_ZSHRC_LOADED=1
 
 source "$HOME/.config/shell/common.sh"
 dotfiles_load_shared_environment
