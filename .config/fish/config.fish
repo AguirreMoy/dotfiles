@@ -24,7 +24,13 @@ if status is-interactive
 end
 
 function fish_greeting
-    cat (random choice ~/.config/fish/greetings/*)
+    set -l greetings ~/.config/fish/greetings/*
+    set -l greeting_count (count $greetings)
+    test $greeting_count -gt 0; or return
+    set -l greeting $greetings[(random 1 $greeting_count)]
+    while read --line line
+        printf '%s\n' "$line"
+    end < "$greeting"
 end
 
 function __dotfiles_terminal_title_context

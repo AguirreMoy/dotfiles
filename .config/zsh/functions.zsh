@@ -47,11 +47,14 @@ delbranch() {
 
 dotfiles_show_greeting() {
     [[ -n ${DOTFILES_GREETING_SHOWN:-} ]] && return 0
-    local greetings
+    local greetings greeting line
     greetings=("$HOME"/.config/fish/greetings/*(N))
     (( ${#greetings} )) || return 0
+    greeting=${greetings[RANDOM % ${#greetings} + 1]}
     export DOTFILES_GREETING_SHOWN=1
-    cat -- "${greetings[RANDOM % ${#greetings} + 1]}"
+    while IFS= read -r line || [[ -n "$line" ]]; do
+        printf '%s\n' "$line"
+    done < "$greeting"
 }
 
 dotfiles_apply_os_shell_setup() {

@@ -1,9 +1,9 @@
 config-file = ~/.cache/hellwal/ghostty-colors.conf
 
 font-family = VictorMono Nerd Font Mono
-font-style = Regular
+font-style = Medium
 font-style-bold = Bold
-font-style-italic = Italic
+font-style-italic = Medium Italic
 font-style-bold-italic = Bold Italic
 command = ~/.config/shell/launch-shell.sh
 shell-integration-features = no-title
