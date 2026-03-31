@@ -12,6 +12,7 @@ DOTFILES_TO_SYNC=(
     ".config/fish:.config/fish"
     ".config/shell/common.sh:.config/shell/common.sh"
     ".config/shell/launch-shell.sh:.config/shell/launch-shell.sh"
+    ".config/shell/launch-tmux.sh:.config/shell/launch-tmux.sh"
     ".config/sheldon:.config/sheldon"
     ".config/zsh:.config/zsh"
     ".config/zsh-abbr:.config/zsh-abbr"

@@ -44,7 +44,7 @@ function __dotfiles_terminal_title_context
 end
 
 function fish_title
-    if test "$TERM_PROGRAM" != ghostty
+    if test "$TERM_PROGRAM" != ghostty; and test -z "$TMUX"
         return
     end
 
