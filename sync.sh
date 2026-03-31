@@ -1,20 +1,27 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 # This is the main entry point for synchronizing dotfiles.
 # It detects the OS and calls the appropriate installation script.
 
-set -e
+set -euo pipefail
 
 # --- Configuration ---
 # The directories and files to symlink.
 DOTFILES_TO_SYNC=(
     ".config/nvim:.config/nvim"
     ".config/fish:.config/fish"
+    ".config/shell/common.sh:.config/shell/common.sh"
+    ".config/shell/launch-shell.sh:.config/shell/launch-shell.sh"
+    ".config/sheldon:.config/sheldon"
+    ".config/zsh:.config/zsh"
+    ".config/zsh-abbr:.config/zsh-abbr"
     ".config/starship.toml:.config/starship.toml"
     ".config/kitty:.config/kitty"
     ".config/hellwal:.config/hellwal"
     ".cache/hellwal:.cache/hellwal"
     ".gitconfig:.gitconfig"
+    ".zprofile:.zprofile"
+    ".zshrc:.zshrc"
     ".paths:.paths"
     ".envs:.envs"
 )
@@ -30,22 +37,51 @@ log_success() { printf "\033[0;32m[SUCCESS]\033[0m %s\n" "$1"; }
 log_warn() { printf "\033[0;33m[WARNING]\033[0m %s\n" "$1"; }
 log_error() { printf "\033[0;31m[ERROR]\033[0m %s\n" "$1" >&2; exit 1; }
 
+prompt_for_selection() {
+    local prompt_message="$1"
+    local first_option="$2"
+    local second_option="$3"
+    local choice
+
+    while true; do
+        log_warn "$prompt_message"
+        printf "1) %s\n2) %s\nSelection: " "$first_option" "$second_option"
+        read -r choice
+        case "$choice" in
+            1) printf '%s\n' "$first_option"; return 0 ;;
+            2) printf '%s\n' "$second_option"; return 0 ;;
+            *) log_warn "Invalid selection. Please try again." ;;
+        esac
+    done
+}
+
+resolve_selected_shell() {
+    case "${DOTFILES_SHELL:-}" in
+        fish|zsh)
+            printf '%s\n' "$DOTFILES_SHELL"
+            ;;
+        "")
+            prompt_for_selection "Which shell tooling should this install prepare?" "zsh" "fish"
+            ;;
+        *)
+            log_error "Invalid DOTFILES_SHELL value: ${DOTFILES_SHELL:-}. Must be 'zsh' or 'fish'."
+            ;;
+    esac
+}
+
 # --- Environment Check & Gitconfig Setup ---
 if [ -z "$MY_ENV" ]; then
-    log_warn "MY_ENV not set. Please choose your environment:"
-    printf "1) Personal\n2) Work\n"
-    printf "Selection: "
-    read -r choice
-    case "$choice" in
-        1) MY_ENV="personal" ;;
-        2) MY_ENV="work" ;;
-        *) log_error "Invalid selection. Please run the script again and select 1 or 2." ;;
-    esac
+    MY_ENV=$(prompt_for_selection "MY_ENV not set. Please choose your environment:" "personal" "work")
     log_success "MY_ENV set to '$MY_ENV' for this session."
     log_info "Note: To make this permanent, export MY_ENV in your shell's config file."
 fi
 
 log_info "Environment detected: $MY_ENV"
+SELECTED_SHELL=$(resolve_selected_shell)
+export DOTFILES_SHELL="$SELECTED_SHELL"
+log_info "Preparing shell tooling for: $SELECTED_SHELL"
+mkdir -p "$HOME_DIR/.config/shell"
+printf '%s\n' "$SELECTED_SHELL" > "$HOME_DIR/.config/shell/active-shell"
 ENVIRONMENT_CONFIG="$HOME/.gitconfig.environment"
 ENVIRONMENT_ENVS="$HOME/.envs.environment"
 ENVIRONMENT_PATHS="$HOME/.paths.environment"
@@ -134,9 +170,21 @@ EOF
     create_symlink "$SCRIPT_DIR/$source_path" "$HOME_DIR/$target_path"
 done
 
-if [ -d "$HOME_DIR/$VSC_CONFIG_DIR" ]; then
+if [ -d "$(dirname "$HOME_DIR/$VSC_SETTINGS_FILE")" ]; then
     install_vscode_extensions "$SCRIPT_DIR/vscode/extensions.txt"
 fi
 
+# --- Shell Plugin Sync ---
+if [ "$SELECTED_SHELL" = "fish" ] && command -v fish >/dev/null 2>&1; then
+    log_info "Updating Fisher plugins..."
+    fish -c "fisher update"
+    log_success "Fisher plugins updated."
+fi
+
+if [ "$SELECTED_SHELL" = "zsh" ] && command -v sheldon >/dev/null 2>&1; then
+    log_info "Syncing Sheldon plugins..."
+    sheldon source >/dev/null
+    log_success "Sheldon plugins synced."
+fi
 log_success "Dotfile synchronization complete."
 log_warn "Please remember to manually install your paid fonts from your private repository."

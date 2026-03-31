@@ -1,0 +1,9 @@
+shell = "zsh"
+
+[plugins.zsh-autosuggestions]
+github = "zsh-users/zsh-autosuggestions"
+use = ["zsh-autosuggestions.zsh"]
+
+[plugins.zsh-abbr]
+github = "olets/zsh-abbr"
+use = ["zsh-abbr.plugin.zsh"]

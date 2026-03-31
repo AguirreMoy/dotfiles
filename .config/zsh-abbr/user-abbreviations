@@ -1,0 +1,24 @@
+abbr bwre=brew
+abbr brwe=brew
+abbr cat="bat -P"
+abbr g=git
+abbr gi=git
+abbr gti=git
+abbr mtr="sudo mtr"
+abbr v=vim
+abbr yearn=yarn
+abbr xpraclient="xpra attach --video-scaling=off --desktop-scaling=off --dpi=96 --ssh=/usr/bin/ssh 'ssh://glurp/:110'"
+abbr "git amend"="git commit --amend --all --no-edit"
+abbr "git c"="git commit -am"
+abbr "git cherrypick"="git cherry-pick"
+abbr "git cm"="git commit --no-all -m"
+abbr "git co"="git checkout"
+abbr "git cp"="git cherry-pick"
+abbr "git db"="git diffbranch"
+abbr "git dbt"="git diffbranch-that"
+abbr "git dif"="git diff"
+abbr "git hreset"="git reset --hard"
+abbr "git s"="git status"
+abbr "git tc"="git commit -am"
+abbr "git ts"="git status"
+abbr "npm i"="npm install"
