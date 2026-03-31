@@ -104,3 +104,33 @@ function Install-VictorMonoNerdFont {
 }
 
 Install-VictorMonoNerdFont
+
+# --- Fish Shell Setup (if available) ---
+if (Get-Command fish -ErrorAction SilentlyContinue) {
+    Log-Info "Fish shell detected. Configuring Fisher and plugins..."
+    
+    # Check if Fisher is installed
+    try {
+        fish -c "type -q fisher" 2>$null | Out-Null
+        if ($LASTEXITCODE -ne 0) {
+            Log-Info "Installing Fisher..."
+            fish -c "curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher"
+            if ($LASTEXITCODE -eq 0) { Log-Success "Fisher installed." }
+            else { Log-Warn "Fisher installation failed." }
+        } else {
+            Log-Info "Fisher is already installed."
+        }
+        
+        Log-Info "Installing/Updating nvm.fish..."
+        fish -c "fisher install jorgebucaran/nvm.fish"
+        
+        Log-Info "Setting default Node.js version to lts..."
+        fish -c "set -U nvm_default_version lts"
+        
+        Log-Success "Fisher plugins and configuration updated."
+    } catch {
+        Log-Warn "Error configuring Fish shell: $_"
+    }
+} else {
+    Log-Info "Fish shell not found. Skipping Fish configuration."
+}
