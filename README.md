@@ -113,8 +113,8 @@ Useful tmux shortcuts:
 
 | Shortcut | Action |
 | --- | --- |
-| `Ctrl-b |` | split horizontally |
-| `Ctrl-b -` | split vertically |
+| `Ctrl-b \|` | split into left/right panes |
+| `Ctrl-b -` | split into top/bottom panes |
 | `Ctrl-b c` | new window in current path |
 | `Ctrl-b e` | open a new window running `nvim` |
 | `Ctrl-b h/j/k/l` | move between panes |
