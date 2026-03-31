@@ -23,14 +23,14 @@ $rust\
 $scala\
 [](fg:prev_bg bg:5)\
 $docker_context\
-[](fg:prev_bg bg:6)\
-$time\
 [ ](fg:prev_bg)\
 $line_break$character
 """
 
-# Disable the blank line at the start of the prompt
-# add_newline = false
+add_newline = false
+
+[profiles]
+transient = """$character"""
 
 # You can also replace your username with a neat symbol like   or disable this
 # and use the os module below
@@ -163,7 +163,4 @@ style = "bg:prev_bg"
 format = '[ $symbol ($version) ]($style)'
 
 [time]
-disabled = false
-time_format = "%R" # Hour:Minute Format
-style = "bg:prev_bg"
-format = '[ $time ]($style)'
+disabled = true

@@ -61,6 +61,7 @@ dotfiles_apply_os_shell_setup
 
 if command -v starship >/dev/null 2>&1; then
     eval "$(starship init zsh)"
+    dotfiles_enable_starship_transience
 fi
 
 if command -v zsh-patina >/dev/null 2>&1; then

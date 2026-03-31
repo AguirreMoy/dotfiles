@@ -50,6 +50,7 @@ zsh is the main interactive shell now. It uses:
 - **Atuin** for history and autosuggestion strategy
 - **zoxide** for `cd`
 - **Starship** prompt
+- Starship-style transient prompts so old commands collapse to a minimal prompt character
 - **zsh-patina** when installed
 - shared env/path loading from `.envs`, `.paths`, and their environment overlays
 - Ghostty title hooks so tabs show the repo/directory while idle and the current command while running
@@ -110,7 +111,10 @@ Defaults:
 - window/pane numbering starts at `1`
 - new panes/windows inherit the current path
 - new shells start through `~/.config/shell/launch-shell.sh`
-- terminal titles follow the tmux window name, and tmux allows shell-driven renames from inside panes
+- a transparent-base status bar with connected left/right islands and pill-style center window tabs, plus battery, now playing, state badges, and time
+- on macOS, now playing is sourced via Safari AppleScript/Javascript when Safari allows JavaScript from Apple Events, with an Apple Music fallback
+- tmux bar colors generated from hellwal via `~/.cache/hellwal/tmux.conf`
+- smarter window titles based on the active pane command, and tmux allows shell-driven renames from inside panes
 - Ghostty only auto-starts tmux for the first surface via `initial-command`
 - Kitty only auto-starts tmux for the initial window via `startup_session`
 

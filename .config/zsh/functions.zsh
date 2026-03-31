@@ -92,6 +92,50 @@ dotfiles_update_terminal_title_preexec() {
     dotfiles_set_terminal_title "${command_title:-$(dotfiles_terminal_title_context)}"
 }
 
+dotfiles_restore_full_prompt() {
+    PROMPT=${DOTFILES_FULL_PROMPT:-$PROMPT}
+    RPROMPT=${DOTFILES_FULL_RPROMPT:-$RPROMPT}
+}
+
+dotfiles_starship_transient_precmd() {
+    [[ -o zle ]] || return 0
+    local last_status=$?
+
+    dotfiles_restore_full_prompt
+
+    DOTFILES_TRANSIENT_PROMPT=$(
+        starship prompt \
+            --profile transient \
+            --status "$last_status" \
+            --terminal-width "${COLUMNS:-120}" \
+            --path "$PWD" \
+            --logical-path "$PWD" \
+            --keymap "${KEYMAP:-viins}" 2>/dev/null
+    )
+    DOTFILES_TRANSIENT_RPROMPT=
+
+    TRAPINT() {
+        dotfiles_starship_apply_transient_prompt
+        return $((128 + $1))
+    }
+}
+
+dotfiles_starship_apply_transient_prompt() {
+    [[ -o zle ]] || return 0
+    PROMPT=${DOTFILES_TRANSIENT_PROMPT:-}
+    RPROMPT=${DOTFILES_TRANSIENT_RPROMPT:-}
+    zle .reset-prompt
+}
+
+dotfiles_enable_starship_transience() {
+    autoload -Uz add-zsh-hook add-zle-hook-widget
+    DOTFILES_FULL_PROMPT=$PROMPT
+    DOTFILES_FULL_RPROMPT=$RPROMPT
+    add-zsh-hook precmd dotfiles_starship_transient_precmd
+    add-zle-hook-widget zle-line-init dotfiles_restore_full_prompt
+    add-zle-hook-widget zle-line-finish dotfiles_starship_apply_transient_prompt
+}
+
 fns() {
     local config_dir="$HOME/.config/zsh"
     rg '^[[:space:]]*[[:alnum:]_]+\(\)[[:space:]]*\{' "$config_dir" -n --color always | \
