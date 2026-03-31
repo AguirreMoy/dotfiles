@@ -85,6 +85,21 @@ install_fish_tooling() {
     log_success "Fisher plugins and configuration updated."
 }
 
+install_ghostty() {
+    if command -v ghostty >/dev/null 2>&1; then
+        log_info "Ghostty is already installed. Skipping."
+        return
+    fi
+
+    if apt-cache show ghostty >/dev/null 2>&1; then
+        log_info "Installing Ghostty..."
+        $PKG_MANAGER ghostty
+        log_success "Ghostty installed."
+    else
+        log_warn "Ghostty package not available via apt on this system. Skipping Ghostty installation."
+    fi
+}
+
 
 install_vscode_linux() {
     log_info "Installing VS Code (Linux)..."
@@ -138,6 +153,7 @@ install_tools() {
 # --- Main Execution ---
 require_supported_shell
 install_tools
+install_ghostty
 # Check if Starship is already installed
 if ! command -v starship >/dev/null 2>&1; then
     log_info "Installing Starship..."

@@ -16,6 +16,7 @@ DOTFILES_TO_SYNC=(
     ".config/zsh:.config/zsh"
     ".config/zsh-abbr:.config/zsh-abbr"
     ".config/starship.toml:.config/starship.toml"
+    ".config/ghostty:.config/ghostty"
     ".config/kitty:.config/kitty"
     ".config/hellwal:.config/hellwal"
     ".cache/hellwal:.cache/hellwal"

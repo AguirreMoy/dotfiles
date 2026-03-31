@@ -58,6 +58,17 @@ install_zsh_tooling() {
     fi
 }
 
+install_ghostty() {
+    if command -v ghostty >/dev/null 2>&1; then
+        log_info "Ghostty is already installed. Skipping."
+        return
+    fi
+
+    log_info "Installing Ghostty..."
+    brew install --cask ghostty
+    log_success "Ghostty installed."
+}
+
 install_tools() {
     log_info "Starting installation of CLI tools..."
     if ! command -v brew >/dev/null 2>&1; then
@@ -101,6 +112,7 @@ install_tools() {
 # --- Main Execution ---
 require_supported_shell
 install_tools
+install_ghostty
 # Check if Starship is already installed
 if ! command -v starship >/dev/null 2>&1; then
     log_info "Installing Starship..."

@@ -1,0 +1,18 @@
+config-file = ~/.cache/hellwal/ghostty-colors.conf
+
+font-family = VictorMono Nerd Font Mono
+font-style = Regular
+font-style-bold = Bold
+font-style-italic = Italic
+font-style-bold-italic = Bold Italic
+command = ~/.config/shell/launch-shell.sh
+shell-integration-features = no-title
+
+confirm-close-surface = false
+window-decoration = true
+
+window-padding-x = 16
+window-padding-y = 16
+
+background-opacity = 0.9
+background-blur = macos-glass-regular

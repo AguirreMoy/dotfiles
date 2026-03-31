@@ -24,6 +24,12 @@ export ABBR_USER_ABBREVIATIONS_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/zsh-abbr/
 source "$HOME/.config/zsh/aliases.zsh"
 source "$HOME/.config/zsh/functions.zsh"
 
+if [[ ${TERM_PROGRAM:-} == ghostty ]]; then
+    autoload -Uz add-zsh-hook
+    add-zsh-hook precmd dotfiles_update_terminal_title_precmd
+    add-zsh-hook preexec dotfiles_update_terminal_title_preexec
+fi
+
 if command -v sheldon >/dev/null 2>&1; then
     eval "$(sheldon source)"
 fi

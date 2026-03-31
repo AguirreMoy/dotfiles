@@ -27,6 +27,28 @@ function fish_greeting
     cat (random choice ~/.config/fish/greetings/*)
 end
 
+function __dotfiles_terminal_title_context
+    if git rev-parse --show-toplevel >/dev/null 2>&1
+        basename (git rev-parse --show-toplevel)
+    else if test "$PWD" = "$HOME"
+        echo "~"
+    else
+        basename "$PWD"
+    end
+end
+
+function fish_title
+    if test "$TERM_PROGRAM" != ghostty
+        return
+    end
+
+    if test (count $argv) -gt 0
+        string join " " $argv
+    else
+        __dotfiles_terminal_title_context
+    end
+end
+
 # TODO: path and aliases are kinda slow to source. optimize later. 
 function ssource --description "source most of my dotfiles, useful if making changes and iterating"
 

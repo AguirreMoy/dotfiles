@@ -64,6 +64,31 @@ dotfiles_apply_os_shell_setup() {
     esac
 }
 
+dotfiles_terminal_title_context() {
+    local git_root
+    git_root=$(git rev-parse --show-toplevel 2>/dev/null) || git_root=
+    if [[ -n "$git_root" ]]; then
+        basename "$git_root"
+    elif [[ $PWD == "$HOME" ]]; then
+        printf '~\n'
+    else
+        basename "$PWD"
+    fi
+}
+
+dotfiles_set_terminal_title() {
+    printf '\033]0;%s\007' "$1"
+}
+
+dotfiles_update_terminal_title_precmd() {
+    dotfiles_set_terminal_title "$(dotfiles_terminal_title_context)"
+}
+
+dotfiles_update_terminal_title_preexec() {
+    local command_title=${1%%$'\n'*}
+    dotfiles_set_terminal_title "${command_title:-$(dotfiles_terminal_title_context)}"
+}
+
 fns() {
     local config_dir="$HOME/.config/zsh"
     rg '^[[:space:]]*[[:alnum:]_]+\(\)[[:space:]]*\{' "$config_dir" -n --color always | \
