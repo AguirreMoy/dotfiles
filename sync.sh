@@ -15,6 +15,7 @@ DOTFILES_TO_SYNC=(
     ".config/sheldon:.config/sheldon"
     ".config/zsh:.config/zsh"
     ".config/zsh-abbr:.config/zsh-abbr"
+    ".config/tmux:.config/tmux"
     ".config/starship.toml:.config/starship.toml"
     ".config/ghostty:.config/ghostty"
     ".config/kitty:.config/kitty"

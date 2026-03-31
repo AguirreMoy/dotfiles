@@ -4,7 +4,7 @@
 
 set -e
 
-TOOLS_TO_INSTALL="tldr neovim lsd ripgrep fd bat zoxide fzf hellwal curl unzip"
+TOOLS_TO_INSTALL="tldr neovim tmux lsd ripgrep fd bat zoxide fzf hellwal curl unzip"
 PKG_MANAGER="brew install"
 SELECTED_SHELL="${DOTFILES_SHELL:-zsh}"
 
