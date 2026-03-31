@@ -44,13 +44,13 @@ prompt_for_selection() {
     local choice
 
     while true; do
-        log_warn "$prompt_message"
-        printf "1) %s\n2) %s\nSelection: " "$first_option" "$second_option"
+        log_warn "$prompt_message" >&2
+        printf "1) %s\n2) %s\nSelection: " "$first_option" "$second_option" >&2
         read -r choice
         case "$choice" in
             1) printf '%s\n' "$first_option"; return 0 ;;
             2) printf '%s\n' "$second_option"; return 0 ;;
-            *) log_warn "Invalid selection. Please try again." ;;
+            *) log_warn "Invalid selection. Please try again." >&2 ;;
         esac
     done
 }
@@ -70,13 +70,13 @@ resolve_selected_shell() {
 }
 
 # --- Environment Check & Gitconfig Setup ---
-if [ -z "$MY_ENV" ]; then
+if [ -z "${MY_ENV:-}" ]; then
     MY_ENV=$(prompt_for_selection "MY_ENV not set. Please choose your environment:" "personal" "work")
     log_success "MY_ENV set to '$MY_ENV' for this session."
     log_info "Note: To make this permanent, export MY_ENV in your shell's config file."
 fi
 
-log_info "Environment detected: $MY_ENV"
+log_info "Environment detected: ${MY_ENV:-}"
 SELECTED_SHELL=$(resolve_selected_shell)
 export DOTFILES_SHELL="$SELECTED_SHELL"
 log_info "Preparing shell tooling for: $SELECTED_SHELL"
@@ -91,7 +91,7 @@ rm -f "$ENVIRONMENT_CONFIG"
 rm -f "$ENVIRONMENT_ENVS"
 rm -f "$ENVIRONMENT_PATHS"
 
-case "$MY_ENV" in
+case "${MY_ENV:-}" in
     personal)
         ln -s "$SCRIPT_DIR/.gitconfig.personal" "$ENVIRONMENT_CONFIG"
         ln -s "$SCRIPT_DIR/.envs.personal" "$ENVIRONMENT_ENVS"
@@ -109,7 +109,7 @@ case "$MY_ENV" in
         log_success "Linked .paths.environment -> .paths.work"
         ;;
     *)
-        log_error "Invalid MY_ENV value: $MY_ENV. Must be 'personal' or 'work'."
+        log_error "Invalid MY_ENV value: ${MY_ENV:-}. Must be 'personal' or 'work'."
         ;;
 esac
 
