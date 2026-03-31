@@ -81,9 +81,9 @@ Highlights:
 - hellwal-generated colors via `~/.cache/hellwal/ghostty-colors.conf`
 - 90% background opacity
 - macOS glass blur (`macos-glass-regular`)
-- shell launched through `~/.config/shell/launch-tmux.sh`
+- later tabs/windows launch through `~/.config/shell/launch-shell.sh`
 - Ghostty title handling disabled so shell hooks control titles cleanly
-- auto-attaches `tmux` session `main` when tmux is available
+- the first Ghostty surface auto-starts `tmux` session `main`
 
 ### Kitty (secondary)
 
@@ -93,7 +93,8 @@ Kitty stays configured and usable, including:
 - Victor Mono Nerd Font setup
 - powerline tab styling
 - cursor trail effects
-- shell launched through the same tmux-aware wrapper
+- later tabs/windows launch through the normal shell wrapper
+- the initial Kitty window uses `startup_session` to auto-start `tmux` session `main`
 
 ## tmux setup
 
@@ -110,6 +111,8 @@ Defaults:
 - new panes/windows inherit the current path
 - new shells start through `~/.config/shell/launch-shell.sh`
 - terminal titles follow the tmux window name, and tmux allows shell-driven renames from inside panes
+- Ghostty only auto-starts tmux for the first surface via `initial-command`
+- Kitty only auto-starts tmux for the initial window via `startup_session`
 
 Useful tmux shortcuts:
 
