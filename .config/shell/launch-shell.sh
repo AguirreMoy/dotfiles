@@ -20,4 +20,11 @@ if [ -z "$shell_path" ]; then
     shell_path=${SHELL:-/bin/sh}
 fi
 
-exec "$shell_path" -l
+case "$selected_shell" in
+    fish|zsh|bash)
+        exec "$shell_path" -i -l
+        ;;
+    *)
+        exec "$shell_path"
+        ;;
+esac

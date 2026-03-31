@@ -22,6 +22,7 @@ DOTFILES_TO_SYNC=(
     ".config/hellwal:.config/hellwal"
     ".cache/hellwal:.cache/hellwal"
     ".gitconfig:.gitconfig"
+    ".tmux.conf:.tmux.conf"
     ".zprofile:.zprofile"
     ".zshrc:.zshrc"
     ".paths:.paths"

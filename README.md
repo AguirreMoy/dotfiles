@@ -96,7 +96,7 @@ Kitty stays configured and usable, including:
 
 ## tmux setup
 
-tmux is configured in `.config/tmux/tmux.conf` with a minimal, no-plugin setup.
+tmux is configured in `.config/tmux/tmux.conf` with a minimal, no-plugin setup. A root `.tmux.conf` shim sources that file so plain `tmux` picks it up automatically.
 
 Defaults:
 
