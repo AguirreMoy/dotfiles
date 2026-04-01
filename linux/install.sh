@@ -64,11 +64,17 @@ install_zsh_patina() {
     version=$(curl -fsSL https://api.github.com/repos/michel-kraemer/zsh-patina/releases/latest | python3 -c 'import json,sys; print(json.load(sys.stdin)["tag_name"])')
     asset="zsh-patina-v${version}-${target}.tar.gz"
     temp_dir=$(mktemp -d)
+    extracted_bin=
 
     log_info "Installing zsh-patina..."
     curl -fsSL "https://github.com/michel-kraemer/zsh-patina/releases/download/${version}/${asset}" -o "$temp_dir/$asset"
     tar -xzf "$temp_dir/$asset" -C "$temp_dir"
-    install "$temp_dir/zsh-patina" "$HOME/.local/bin/zsh-patina"
+    extracted_bin=$(find "$temp_dir" -type f -name zsh-patina -print -quit)
+    if [ -z "$extracted_bin" ]; then
+        rm -rf "$temp_dir"
+        log_error "zsh-patina binary not found in extracted archive."
+    fi
+    install "$extracted_bin" "$HOME/.local/bin/zsh-patina"
     rm -rf "$temp_dir"
     log_success "zsh-patina installed."
 }
