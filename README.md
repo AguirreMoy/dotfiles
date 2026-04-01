@@ -33,10 +33,15 @@ MY_ENV=work DOTFILES_SHELL=fish bash sync.sh
 | `.config/kitty/kitty.conf` | Secondary terminal config |
 | `.config/tmux/tmux.conf` | tmux config |
 | `.zshrc`, `.zprofile`, `.config/zsh/` | zsh setup |
+| `.config/sheldon/plugins.toml` | zsh plugin loading |
+| `.config/starship.toml` | shell prompt config |
+| `.config/zsh-abbr/user-abbreviations` | zsh abbreviations |
 | `.config/fish/` | fish setup |
 | `.config/shell/common.sh` | shared env/path loading |
 | `.config/shell/launch-shell.sh` | terminal-driven shell launcher |
+| `.config/shell/launch-tmux.sh` | tmux auto-start wrapper for terminal first-launch flows |
 | `.config/nvim/` | Neovim / LazyVim config |
+| `.config/qtile/`, `.config/picom/` | Linux window-manager/compositor config |
 | `.config/hellwal/` | color generation templates |
 | `.cache/hellwal/` | generated terminal color files |
 
@@ -69,6 +74,8 @@ fish is preserved and kept usable. It has matching greeting/title behavior plus 
 
 That means the terminal chooses the shell. The account login shell is not changed by this repo.
 
+When a terminal should auto-enter tmux, `~/.config/shell/launch-tmux.sh` wraps that shell launcher and attaches to or creates the configured session.
+
 ## Terminal setup
 
 ### Ghostty (primary)
@@ -83,6 +90,7 @@ Highlights:
 - 90% background opacity
 - macOS glass blur (`macos-glass-regular`)
 - later tabs/windows launch through `~/.config/shell/launch-shell.sh`
+- the first Ghostty surface launches through `~/.config/shell/launch-tmux.sh`
 - Ghostty title handling disabled so shell hooks control titles cleanly
 - the first Ghostty surface auto-starts `tmux` session `main`
 
@@ -95,6 +103,7 @@ Kitty stays configured and usable, including:
 - powerline tab styling
 - cursor trail effects
 - later tabs/windows launch through the normal shell wrapper
+- the initial Kitty window enters tmux through Kitty's `startup_session` flow
 - the initial Kitty window uses `startup_session` to auto-start `tmux` session `main`
 
 ## tmux setup
@@ -103,6 +112,7 @@ tmux is configured in `.config/tmux/tmux.conf` with a minimal, no-plugin setup. 
 
 Defaults:
 
+- prefix remapped from `Ctrl-b` to `Ctrl-Space`
 - `tmux-256color` + truecolor overrides for Ghostty/Kitty
 - mouse support enabled
 - vi-style copy mode
@@ -122,15 +132,15 @@ Useful tmux shortcuts:
 
 | Shortcut | Action |
 | --- | --- |
-| `Ctrl-b \|` | split into left/right panes |
-| `Ctrl-b -` | split into top/bottom panes |
-| `Ctrl-b c` | new window in current path |
-| `Ctrl-b e` | open a new window running `nvim` |
-| `Ctrl-b h/j/k/l` | move between panes |
-| `Ctrl-b H/J/K/L` | resize panes |
-| `Ctrl-b Ctrl-h` / `Ctrl-b Ctrl-l` | previous/next window |
-| `Ctrl-b Tab` | jump to the last window |
-| `Ctrl-b r` | reload tmux config |
+| `Ctrl-Space \|` | split into left/right panes |
+| `Ctrl-Space -` | split into top/bottom panes |
+| `Ctrl-Space c` | new window in current path |
+| `Ctrl-Space e` | open a new window running `nvim` |
+| `Ctrl-Space h/j/k/l` | move between panes |
+| `Ctrl-Space H/J/K/L` | resize panes |
+| `Ctrl-Space Ctrl-h` / `Ctrl-Space Ctrl-l` | previous/next window |
+| `Ctrl-Space Tab` | jump to the last window |
+| `Ctrl-Space r` | reload tmux config |
 | copy mode `v` / `y` | begin selection / copy |
 
 ## Neovim setup
@@ -285,6 +295,7 @@ The setup supports `personal` and `work` overlays through `MY_ENV`.
 
 Shared logic in `.config/shell/common.sh`:
 
+- switches `.gitconfig.environment`, `.envs.environment`, and `.paths.environment` to the selected overlay
 - loads `.envs` + `.envs.environment`
 - loads `.paths` + `.paths.environment`
 - sources optional env helpers from `~/.local/bin/env` and `~/.atuin/bin/env`
