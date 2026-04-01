@@ -4,7 +4,7 @@
 
 set -e
 
-TOOLS_TO_INSTALL="tldr neovim tmux lsd ripgrep fd-find bat zoxide fzf curl unzip"
+TOOLS_TO_INSTALL="neovim tmux lsd ripgrep fd-find bat zoxide fzf curl unzip"
 PKG_MANAGER="sudo apt-get install -y"
 SELECTED_SHELL="${DOTFILES_SHELL:-zsh}"
 
