@@ -24,25 +24,34 @@ ensure_local_bin() {
     mkdir -p "$HOME/.local/bin"
 }
 
+ensure_local_bin_on_path() {
+    ensure_local_bin
+    case ":$PATH:" in
+        *:"$HOME/.local/bin":*) ;;
+        *) PATH="$HOME/.local/bin:$PATH" ;;
+    esac
+    export PATH
+}
+
 install_sheldon() {
-    if command -v sheldon >/dev/null 2>&1; then
+    ensure_local_bin_on_path
+    if command -v sheldon >/dev/null 2>&1 || [ -x "$HOME/.local/bin/sheldon" ]; then
         log_info "sheldon is already installed. Skipping."
         return
     fi
 
-    ensure_local_bin
     log_info "Installing sheldon..."
     curl --proto '=https' -fLsS https://rossmacarthur.github.io/install/crate.sh | bash -s -- --repo rossmacarthur/sheldon --to "$HOME/.local/bin"
     log_success "sheldon installed."
 }
 
 install_zsh_patina() {
-    if command -v zsh-patina >/dev/null 2>&1; then
+    ensure_local_bin_on_path
+    if command -v zsh-patina >/dev/null 2>&1 || [ -x "$HOME/.local/bin/zsh-patina" ]; then
         log_info "zsh-patina is already installed. Skipping."
         return
     fi
 
-    ensure_local_bin
     arch=$(uname -m)
     case "$arch" in
         x86_64|amd64) target="x86_64-unknown-linux-gnu" ;;
