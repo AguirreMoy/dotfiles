@@ -8,6 +8,7 @@ font-style-bold-italic = Bold Italic
 command = shell:$HOME/.config/shell/launch-shell.sh
 initial-command = shell:$HOME/.config/shell/launch-tmux.sh
 shell-integration-features = no-title
+bell-features = audible
 
 confirm-close-surface = false
 window-decoration = true

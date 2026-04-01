@@ -32,7 +32,7 @@ if application "Safari" is running then
                         const title = metadata && metadata.title ? metadata.title : '';
                         const artist = metadata && metadata.artist ? metadata.artist : '';
                         const pageTitle = document.title || '';
-                        if (title && artist) return `${artist} — ${title}`;
+                        if (title && artist) return `${title} — ${artist}`;
                         if (title) return title;
                         return pageTitle;
                     })();
@@ -60,7 +60,7 @@ if command -v playerctl >/dev/null 2>&1; then
     if [ "$status" = "Playing" ]; then
         artist=$(playerctl metadata artist 2>/dev/null || true)
         title=$(playerctl metadata title 2>/dev/null || true)
-        track=$(printf '%s — %s' "$artist" "$title" | sed 's/^ — //; s/ — $//')
+        track=$(printf '%s — %s' "$title" "$artist" | sed 's/^ — //; s/ — $//')
         [ -n "$track" ] || exit 0
         trim_output "󰎈 $track" 30
         exit 0
@@ -73,7 +73,7 @@ if command -v osascript >/dev/null 2>&1; then
 if application "Music" is running then
     tell application "Music"
         try
-            return "track=" & (artist of current track as text) & " — " & (name of current track as text)
+            return "track=" & (name of current track as text) & " — " & (artist of current track as text)
         end try
     end tell
 end if

@@ -89,6 +89,7 @@ Highlights:
 - hellwal-generated colors via `~/.cache/hellwal/ghostty-colors.conf`
 - 90% background opacity
 - macOS glass blur (`macos-glass-regular`)
+- audible terminal bell enabled
 - later tabs/windows launch through `~/.config/shell/launch-shell.sh`
 - the first Ghostty surface launches through `~/.config/shell/launch-tmux.sh`
 - Ghostty title handling disabled so shell hooks control titles cleanly
@@ -115,6 +116,7 @@ Defaults:
 - prefix remapped from `Ctrl-b` to `Ctrl-Space`
 - `tmux-256color` + truecolor overrides for Ghostty/Kitty
 - mouse support enabled
+- bell monitoring enabled, with tmux messages plus terminal bell passthrough
 - vi-style copy mode
 - clipboard integration enabled
 - large history
