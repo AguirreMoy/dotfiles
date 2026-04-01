@@ -117,7 +117,7 @@ The usual entry point is `dev-session`, which creates or re-attaches to a `dev` 
 
 Defaults:
 
-- prefix remapped from `Ctrl-b` to `Ctrl-Space`
+- prefix remapped from `Ctrl-b` to `Ctrl-a`
 - `tmux-256color` + truecolor overrides for Ghostty/Kitty
 - mouse support enabled
 - bell monitoring enabled, with window-status highlighting instead of a tmux banner
@@ -137,15 +137,15 @@ Useful tmux shortcuts:
 
 | Shortcut | Action |
 | --- | --- |
-| `Ctrl-Space \|` | split into left/right panes |
-| `Ctrl-Space -` | split into top/bottom panes |
-| `Ctrl-Space c` | new window in current path |
-| `Ctrl-Space e` | open a new window running `nvim` |
-| `Ctrl-Space h/j/k/l` | move between panes |
-| `Ctrl-Space H/J/K/L` | resize panes |
-| `Ctrl-Space Ctrl-h` / `Ctrl-Space Ctrl-l` | previous/next window |
-| `Ctrl-Space Tab` | jump to the last window |
-| `Ctrl-Space r` | reload tmux config |
+| `Ctrl-a \|` | split into left/right panes |
+| `Ctrl-a -` | split into top/bottom panes |
+| `Ctrl-a c` | new window in current path |
+| `Ctrl-a e` | open a new window running `nvim` |
+| `Ctrl-a h/j/k/l` | move between panes |
+| `Ctrl-a H/J/K/L` | resize panes |
+| `Ctrl-a Ctrl-h` / `Ctrl-a Ctrl-l` | previous/next window |
+| `Ctrl-a Tab` | jump to the last window |
+| `Ctrl-a r` | reload tmux config |
 | copy mode `v` / `y` | begin selection / copy |
 
 ## Neovim setup
