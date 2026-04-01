@@ -180,9 +180,9 @@ fi
 
 # Manually build and install hellwal.
 log_info "Building and installing hellwal..."
-if ! command -v git >/dev/null 2>&1 || ! command -v make >/dev/null 2>&1; then
-    log_info "Installing git and make for hellwal build..."
-    sudo apt-get install -y git make
+if ! command -v git >/dev/null 2>&1 || ! command -v make >/dev/null 2>&1 || ! command -v cc >/dev/null 2>&1; then
+    log_info "Installing build tools for hellwal..."
+    sudo apt-get install -y git build-essential
 fi
 
 if [ -d "hellwal" ]; then
