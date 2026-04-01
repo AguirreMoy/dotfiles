@@ -15,6 +15,7 @@ abbr rm 'rm -v'
 abbr cp 'cp -v'
 
 alias chmox='chmod +x'
+alias dev-session='$HOME/.config/shell/dev-session.sh'
 
 alias where=which # sometimes i forget
 

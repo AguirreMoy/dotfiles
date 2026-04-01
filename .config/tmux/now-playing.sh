@@ -18,33 +18,48 @@ if command -v osascript >/dev/null 2>&1; then
     track=$(
         osascript <<'APPLESCRIPT' 2>/dev/null || true
 set trackInfo to ""
+set bestTrackInfo to ""
 
 if application "Safari" is running then
     tell application "Safari"
         if (count of windows) > 0 then
-            try
-                set trackInfo to do JavaScript "
-                    (() => {
-                        const media = Array.from(document.querySelectorAll('video, audio'));
-                        const playingElement = media.find(item => !item.paused && !item.ended);
-                        const metadata = navigator.mediaSession ? navigator.mediaSession.metadata : null;
-                        if (!playingElement && !metadata) return '';
-                        const title = metadata && metadata.title ? metadata.title : '';
-                        const artist = metadata && metadata.artist ? metadata.artist : '';
-                        const pageTitle = document.title || '';
-                        if (title && artist) return `${title} — ${artist}`;
-                        if (title) return title;
-                        return pageTitle;
-                    })();
-                " in current tab of front window
-            on error
-                set trackInfo to ""
-            end try
+            repeat with safariWindow in windows
+                repeat with safariTab in tabs of safariWindow
+                    try
+                        set trackInfo to do JavaScript "
+                            (() => {
+                                const media = Array.from(document.querySelectorAll('video, audio'));
+                                const playingElement = media.find(item => !item.paused && !item.ended);
+                                const metadata = navigator.mediaSession ? navigator.mediaSession.metadata : null;
+                                const playbackState = navigator.mediaSession && navigator.mediaSession.playbackState ? navigator.mediaSession.playbackState : '';
+                                const title = metadata && metadata.title ? metadata.title : '';
+                                const artist = metadata && metadata.artist ? metadata.artist : '';
+                                const pageTitle = document.title || '';
+                                const info = title && artist ? `${title} — ${artist}` : (title || pageTitle);
+                                if (!info) return '';
+                                if (playingElement || playbackState === 'playing') return `2|${info}`;
+                                if (metadata) return `1|${info}`;
+                                return '';
+                            })();
+                        " in safariTab
+                    on error
+                        set trackInfo to ""
+                    end try
+                    
+                    if trackInfo starts with "2|" then
+                        return text 3 thru -1 of trackInfo
+                    end if
+                    
+                    if trackInfo starts with "1|" and bestTrackInfo is "" then
+                        set bestTrackInfo to text 3 thru -1 of trackInfo
+                    end if
+                end repeat
+            end repeat
         end if
     end tell
 end if
 
-return trackInfo
+return bestTrackInfo
 APPLESCRIPT
     )
 

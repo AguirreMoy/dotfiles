@@ -1,6 +1,7 @@
 alias chmox='chmod +x'
 alias cp='cp -v'
 alias diskspace_report='df --si /'
+alias dev-session='$HOME/.config/shell/dev-session.sh'
 alias dotfiles='subl ~/code/dotfiles'
 alias grep='command grep --color=auto'
 alias hosts='sudo ${EDITOR:-nvim} /etc/hosts'

@@ -38,8 +38,8 @@ MY_ENV=work DOTFILES_SHELL=fish bash sync.sh
 | `.config/zsh-abbr/user-abbreviations` | zsh abbreviations |
 | `.config/fish/` | fish setup |
 | `.config/shell/common.sh` | shared env/path loading |
+| `.config/shell/dev-session.sh` | tmux dev-session launcher |
 | `.config/shell/launch-shell.sh` | terminal-driven shell launcher |
-| `.config/shell/launch-tmux.sh` | tmux auto-start wrapper for terminal first-launch flows |
 | `.config/nvim/` | Neovim / LazyVim config |
 | `.config/qtile/`, `.config/picom/` | Linux window-manager/compositor config |
 | `.config/hellwal/` | color generation templates |
@@ -74,7 +74,7 @@ fish is preserved and kept usable. It has matching greeting/title behavior plus 
 
 That means the terminal chooses the shell. The account login shell is not changed by this repo.
 
-When a terminal should auto-enter tmux, `~/.config/shell/launch-tmux.sh` wraps that shell launcher and attaches to or creates the configured session.
+When I want the standard tmux workspace, `dev-session` runs `~/.config/shell/dev-session.sh` to create or attach to the shared dev session.
 
 ## Terminal setup
 
@@ -89,11 +89,9 @@ Highlights:
 - hellwal-generated colors via `~/.cache/hellwal/ghostty-colors.conf`
 - 90% background opacity
 - macOS glass blur (`macos-glass-regular`)
-- audible terminal bell enabled
-- later tabs/windows launch through `~/.config/shell/launch-shell.sh`
-- the first Ghostty surface launches through `~/.config/shell/launch-tmux.sh`
+- audible terminal bell enabled, without adding a bell marker to the title
+- all windows/tabs launch through `~/.config/shell/launch-shell.sh`
 - Ghostty title handling disabled so shell hooks control titles cleanly
-- the first Ghostty surface auto-starts `tmux` session `main`
 
 ### Kitty (secondary)
 
@@ -103,20 +101,26 @@ Kitty stays configured and usable, including:
 - Victor Mono Nerd Font setup
 - powerline tab styling
 - cursor trail effects
-- later tabs/windows launch through the normal shell wrapper
-- the initial Kitty window enters tmux through Kitty's `startup_session` flow
-- the initial Kitty window uses `startup_session` to auto-start `tmux` session `main`
+- windows launch through the normal shell wrapper
 
 ## tmux setup
 
 tmux is configured in `.config/tmux/tmux.conf` with a minimal, no-plugin setup. A root `.tmux.conf` shim sources that file so plain `tmux` picks it up automatically.
+
+The usual entry point is `dev-session`, which creates or re-attaches to a `dev` session with a stable five-window layout:
+
+1. window `1` for the primary Claude/dev task
+2. window `2` for a second agent or parallel task
+3. window `3` for tests/research
+4. window `4` named `servers`
+5. window `5` named `misc`
 
 Defaults:
 
 - prefix remapped from `Ctrl-b` to `Ctrl-Space`
 - `tmux-256color` + truecolor overrides for Ghostty/Kitty
 - mouse support enabled
-- bell monitoring enabled, with tmux messages plus terminal bell passthrough
+- bell monitoring enabled, with window-status highlighting instead of a tmux banner
 - vi-style copy mode
 - clipboard integration enabled
 - large history
@@ -127,8 +131,7 @@ Defaults:
 - on macOS, now playing is sourced via Safari AppleScript/Javascript when Safari allows JavaScript from Apple Events, with an Apple Music fallback
 - tmux bar colors generated from hellwal via `~/.cache/hellwal/tmux.conf`
 - smarter window titles based on the active pane command, and tmux allows shell-driven renames from inside panes
-- Ghostty only auto-starts tmux for the first surface via `initial-command`
-- Kitty only auto-starts tmux for the initial window via `startup_session`
+- `dev-session` attaches if the `dev` session already exists instead of rebuilding it
 
 Useful tmux shortcuts:
 
@@ -221,6 +224,7 @@ These are present in zsh and largely mirrored in fish:
 | `dig` | short DNS answer view |
 | `hosts` | edit `/etc/hosts` in `$EDITOR` |
 | `push` | `git push` |
+| `dev-session` | create or attach to the standard five-window tmux dev session |
 | `dotfiles` | open the dotfiles repo in Sublime Text |
 | `cleanup_dsstore` | remove `.DS_Store` files recursively |
 | `diskspace_report` | `df --si /` |
