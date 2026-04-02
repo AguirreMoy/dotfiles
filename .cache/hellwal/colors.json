@@ -1,0 +1,29 @@
+{
+  "wallpaper": "wallhaven-3lkyry.png",
+  "alpha": "100",
+
+  "special": {
+    "background": "#131514",
+    "foreground": "#ffffff",
+    "cursor": "#ffffff",
+    "border": "#ffffff"
+  },
+  "colors": {
+    "color0": "#131514",
+    "color1": "#664e49",
+    "color2": "#6d6869",
+    "color3": "#9b7d79",
+    "color4": "#948384",
+    "color5": "#958582",
+    "color6": "#99918e",
+    "color7": "#ffeee8",
+    "color8": "#515b55",
+    "color9": "#7f615b",
+    "color10": "#888283",
+    "color11": "#c19c97",
+    "color12": "#b9a3a5",
+    "color13": "#baa6a2",
+    "color14": "#bfb5b1",
+    "color15": "#ffffff"
+  }
+}
