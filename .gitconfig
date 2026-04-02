@@ -1,6 +1,8 @@
 # Environment Specific Config (Managed by sync.sh via MY_ENV)
 [include]
     path = ~/.gitconfig.environment
+[include]
+    path = ~/.gitconfig.os
 
 [alias]
 	c = commit -am
@@ -206,8 +208,6 @@
 	# remember conflict resolutions
 	enabled = true
 	autoupdate = true
-[credential]
-	helper = 
-	helper = /usr/local/share/gcm-core/git-credential-manager
+
 [credential "https://dev.azure.com"]
 	useHttpPath = true

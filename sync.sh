@@ -87,13 +87,29 @@ log_info "Preparing shell tooling for: $SELECTED_SHELL"
 mkdir -p "$HOME_DIR/.config/shell"
 printf '%s\n' "$SELECTED_SHELL" > "$HOME_DIR/.config/shell/active-shell"
 ENVIRONMENT_CONFIG="$HOME/.gitconfig.environment"
+OS_CONFIG="$HOME/.gitconfig.os"
 ENVIRONMENT_ENVS="$HOME/.envs.environment"
 ENVIRONMENT_PATHS="$HOME/.paths.environment"
 
 # Remove existing symlink or file
 rm -f "$ENVIRONMENT_CONFIG"
+rm -f "$OS_CONFIG"
 rm -f "$ENVIRONMENT_ENVS"
 rm -f "$ENVIRONMENT_PATHS"
+
+# --- OS Detection and Symlink Setup ---
+OS_NAME=$(uname -s)
+
+case "$OS_NAME" in
+    Linux)
+        ln -s "$SCRIPT_DIR/.gitconfig.linux" "$OS_CONFIG"
+        log_success "Linked .gitconfig.os -> .gitconfig.linux"
+        ;;
+    Darwin)
+        ln -s "$SCRIPT_DIR/.gitconfig.darwin" "$OS_CONFIG"
+        log_success "Linked .gitconfig.os -> .gitconfig.darwin"
+        ;;
+esac
 
 case "${MY_ENV:-}" in
     personal)
@@ -119,8 +135,6 @@ esac
 
 
 # --- OS Detection and Sub-script Call ---
-OS_NAME=$(uname -s)
-
 if [ "$OS_NAME" = "Linux" ]; then
     log_info "Detected OS: Linux. Running Linux-specific setup..."
     VSC_SETTINGS_FILE=".config/Code/User/settings.json"

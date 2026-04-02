@@ -76,10 +76,15 @@ install_tools() {
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
         log_success "Homebrew installed."
     fi
-    if ! command -v code >/dev/null 2>&1; then
-        log_info "Installing VS Code (macOS)..."; brew install --cask visual-studio-code
-        log_success "VS Code installed."
-    fi
+
+    for cask in $CASKS_TO_INSTALL; do
+        if ! brew list --cask "$cask" >/dev/null 2>&1; then
+            log_info "Installing $cask..."; brew install --cask "$cask"
+        else
+            log_info "$cask is already installed. Skipping."
+        fi
+    done
+
     for tool in $TOOLS_TO_INSTALL; do
         if ! command -v "$tool" >/dev/null 2>&1; then
             log_info "Installing $tool..."; $PKG_MANAGER "$tool"
@@ -112,7 +117,6 @@ install_tools() {
 # --- Main Execution ---
 require_supported_shell
 install_tools
-install_ghostty
 # Check if Starship is already installed
 if ! command -v starship >/dev/null 2>&1; then
     log_info "Installing Starship..."
