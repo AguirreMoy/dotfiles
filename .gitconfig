@@ -1,8 +1,8 @@
-# Environment Specific Config (Managed by sync.sh via MY_ENV)
-[include]
-    path = ~/.gitconfig.environment
 [include]
     path = ~/.gitconfig.os
+# Environment-specific settings should load after OS defaults so they can override them.
+[include]
+    path = ~/.gitconfig.environment
 
 [alias]
 	c = commit -am
@@ -211,3 +211,6 @@
 
 [credential "https://dev.azure.com"]
 	useHttpPath = true
+[credential "azrepos:org/microsoft"]
+	username = moaguirre@microsoft.com
+	azureAuthority = https://login.microsoftonline.com/72f988bf-86f1-41af-91ab-2d7cd011db47
