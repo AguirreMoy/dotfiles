@@ -5,6 +5,7 @@
 set -e
 
 TOOLS_TO_INSTALL="neovim tmux lsd ripgrep fd bat zoxide fzf hellwal curl unzip"
+CASKS_TO_INSTALL="visual-studio-code kitty"
 PKG_MANAGER="brew install"
 SELECTED_SHELL="${DOTFILES_SHELL:-zsh}"
 
@@ -117,6 +118,7 @@ install_tools() {
 # --- Main Execution ---
 require_supported_shell
 install_tools
+install_ghostty
 # Check if Starship is already installed
 if ! command -v starship >/dev/null 2>&1; then
     log_info "Installing Starship..."
